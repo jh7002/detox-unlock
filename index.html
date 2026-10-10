@@ -6,7 +6,7 @@
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#2E7D6B">
-<title>디톡스 해제 숫자</title>
+<title>폰쉼표 · 해제 코드</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
@@ -56,7 +56,7 @@
 </head>
 <body>
 <main>
-  <h1>🌿 디톡스 해제 숫자</h1>
+  <h1 id="title">🔑 친구의 해제 코드</h1>
 
   <div id="firstBanner" class="banner hidden">
     이제 이 링크는 이 기기에서만 숫자가 보여요 🔒<br>친구에게 '열었어'라고 답장해 주세요
@@ -103,8 +103,11 @@
   function showError(msg) { const el = $('error'); el.textContent = msg; el.classList.remove('hidden'); }
 
   // 1) 링크의 # 뒤에서 비밀 키를 읽는다 (# 뒤는 서버로 전송되지 않는다)
+  //    o = 보낸 사람 기기 식별값, n = 보낸 사람 이름 (모두 # 뒤라 서버로 전송되지 않음)
   const params = new URLSearchParams(location.hash.slice(1));
   const linkKey = params.get('k');
+  const owner = (params.get('o') || '').slice(0, 64);
+  const ownerName = (params.get('n') || '').trim().slice(0, 30);
   let keys = loadKeys();
   let firstOpen = false;
 
@@ -112,7 +115,9 @@
     if (!DetoxCode.isValidSecret(linkKey)) {
       showError('링크가 올바르지 않아요. 친구에게 링크를 다시 보내 달라고 해 주세요.');
     } else if (!keys.some((x) => x.k === linkKey)) {
-      keys.push({ k: linkKey, added: Date.now() });
+      // 같은 사람이 새 링크를 보냈으면 예전 링크(이제 쓸 수 없는 숫자)는 지운다
+      if (owner) keys = keys.filter((x) => x.o !== owner);
+      keys.push({ k: linkKey, o: owner, n: ownerName, added: Date.now() });
       firstOpen = saveKeys(keys);
       if (!firstOpen) showError('이 브라우저에 저장할 수 없어요. 비공개(시크릿) 모드라면 일반 모드로 다시 열어 주세요.');
     }
@@ -126,7 +131,12 @@
     showError('이 브라우저에는 저장된 해제 숫자가 없어요. 친구가 보낸 링크를 이 폰에서 처음 연 브라우저로 다시 열어 주세요.');
   }
 
-  // 2) 오늘(한국 시간) 숫자 표시. 자정이 지나면 새 숫자로 바뀐다
+  // 맨 위 제목: "○○님의 해제 코드" (이름이 없으면 "친구의 해제 코드")
+  const titleOf = (x) => (x && x.n ? `🔑 ${x.n}님의 해제 코드` : '🔑 친구의 해제 코드');
+  $('title').textContent = keys.length === 1 ? titleOf(keys[0]) : '🔑 친구의 해제 코드';
+  document.title = $('title').textContent;
+
+  // 2) 오늘(한국 시간) 숫자 표시. 자정이 지나면 새 숫자로 바뀐다 (숫자는 저장하지 않는다)
   async function render() {
     const today = DetoxCode.kstDate();
     const box = $('codes');
@@ -135,11 +145,13 @@
       const code = await DetoxCode.unlockCode(keys[i].k, today);
       const card = document.createElement('div');
       card.className = 'card';
-      const label = keys.length > 1 ? `오늘의 해제 숫자 (${i + 1})` : '오늘의 해제 숫자';
       card.innerHTML =
-        `<div class="label">${label}</div>` +
+        `<div class="label"></div>` +
         `<div class="code">${code.slice(0, 3)} ${code.slice(3)}</div>` +
         `<div class="meta">${today.replace(/-/g, '.')} · <span class="left"></span></div>`;
+      // 이름은 사용자가 입력한 글자라 textContent 로 넣는다
+      card.querySelector('.label').textContent =
+        keys.length > 1 ? titleOf(keys[i]).replace('🔑 ', '') : '오늘의 해제 숫자';
       box.appendChild(card);
     }
     if (keys.length > 0) $('notes').classList.remove('hidden');

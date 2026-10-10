@@ -1,6 +1,6 @@
 {
-  "name": "디톡스 해제 숫자",
-  "short_name": "해제 숫자",
+  "name": "폰쉼표 해제 코드",
+  "short_name": "해제 코드",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
