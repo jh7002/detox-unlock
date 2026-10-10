@@ -1,0 +1,12 @@
+{
+  "name": "디톡스 해제 숫자",
+  "short_name": "해제 숫자",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F4FAF7",
+  "theme_color": "#2E7D6B",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
