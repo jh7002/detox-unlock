@@ -30,7 +30,7 @@
   h1 { font-size: 20px; margin: 4px 0 16px; display: flex; align-items: center; gap: 8px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 20px; margin-bottom: 14px; }
   .banner { background: var(--green-soft); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; font-weight: 600; }
-  .error { background: var(--warn-bg); color: var(--warn); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; }
+  .error { background: var(--warn-bg); color: var(--warn); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; white-space: pre-line; }
   .label { color: var(--sub); font-size: 14px; text-align: center; }
   .code {
     font-size: 56px; font-weight: 800; letter-spacing: 6px; text-align: center; color: var(--green);
@@ -62,12 +62,13 @@
     이제 이 링크는 이 기기에서만 숫자가 보여요 🔒<br>친구에게 '열었어'라고 답장해 주세요
   </div>
   <div id="error" class="error hidden"></div>
+  <div id="checking" class="banner hidden">이 기기에서 처음 연 링크인지 확인하고 있어요…</div>
 
   <div id="codes"></div>
 
   <div id="notes" class="card hidden">
     <p class="note">친구가 전화로 급하다고 하면 이유를 듣고 알려 주세요. 이 숫자는 하루 1번만 쓸 수 있으니 꼭 필요할 때만 알려 주세요. 숫자는 매일 바뀌어요.</p>
-    <p class="note small">이 폰, 이 브라우저에서만 다시 볼 수 있어요. 인터넷 기록을 지우거나 다른 브라우저로 열면 볼 수 없어요.</p>
+    <p class="note small">이 링크는 처음 연 이 폰, 이 브라우저에서만 숫자가 보여요. 다른 폰이나 다른 브라우저에서 열면 보이지 않고, 인터넷 기록(사이트 데이터)을 지우면 이 브라우저에서도 다시 볼 수 없어요.</p>
   </div>
 
   <div id="installCard" class="card hidden">
@@ -89,116 +90,171 @@
 
 <script src="config.js"></script>
 <script src="code.js"></script>
-<script>
-(function () {
-  const STORE = 'detox_unlock_keys_v1';
-  const $ = (id) => document.getElementById(id);
+<script type="module">
+import { claim } from './claim.js';
 
-  function loadKeys() {
-    try { return JSON.parse(localStorage.getItem(STORE) || '[]'); } catch (e) { return []; }
+const STORE = 'detox_unlock_keys_v1';
+const $ = (id) => document.getElementById(id);
+
+function loadKeys() {
+  try { return JSON.parse(localStorage.getItem(STORE) || '[]'); } catch (e) { return []; }
+}
+function saveKeys(keys) {
+  try { localStorage.setItem(STORE, JSON.stringify(keys)); return true; } catch (e) { return false; }
+}
+const messages = new Set();
+function showError(msg) {
+  messages.add(msg);
+  const el = $('error');
+  el.textContent = Array.from(messages).join('\n\n');
+  el.classList.remove('hidden');
+}
+
+// 키 상태 c: 1 = 이 기기가 처음 연 링크(숫자 보임), 0 = 아직 확인 전(숫자 안 보임), -1 = 다른 기기가 먼저 엶
+// c 가 없는 키는 이 기능 전에 이 브라우저에서 이미 연 링크라 계속 보여 주고, 뒤에서 확인만 한다
+const claimed = (x) => x.c === 1 || x.c === undefined;
+
+// 1) 링크의 # 뒤에서 비밀 키를 읽는다 (# 뒤는 서버로 전송되지 않는다)
+//    o = 보낸 사람 기기 식별값, n = 보낸 사람 이름 (모두 # 뒤라 서버로 전송되지 않음)
+const params = new URLSearchParams(location.hash.slice(1));
+const linkKey = params.get('k');
+const owner = (params.get('o') || '').slice(0, 64);
+const ownerName = (params.get('n') || '').trim().slice(0, 30);
+let keys = loadKeys();
+let newKey = null;
+let storageOk = true;
+
+if (linkKey) {
+  if (!DetoxCode.isValidSecret(linkKey)) {
+    showError('링크가 올바르지 않아요. 친구에게 링크를 다시 보내 달라고 해 주세요.');
+  } else if (!keys.some((x) => x.k === linkKey)) {
+    // 같은 사람이 새 링크를 보냈으면 예전 링크(이제 쓸 수 없는 숫자)는 지운다
+    if (owner) keys = keys.filter((x) => x.o !== owner);
+    keys.push({ k: linkKey, o: owner, n: ownerName, added: Date.now(), c: 0 });
+    newKey = linkKey;
+    storageOk = saveKeys(keys);
+    if (!storageOk) showError('이 브라우저에 저장할 수 없어요. 비공개(시크릿) 모드라면 일반 모드로 다시 열어 주세요.');
   }
-  function saveKeys(keys) {
-    try { localStorage.setItem(STORE, JSON.stringify(keys)); return true; } catch (e) { return false; }
-  }
-  function showError(msg) { const el = $('error'); el.textContent = msg; el.classList.remove('hidden'); }
+  // 저장에 성공했을 때만 주소창·방문 기록에서 비밀 키를 지운다 (실패하면 다시 열 수 있게 둔다)
+  if (storageOk) history.replaceState(null, '', location.pathname + location.search);
+}
 
-  // 1) 링크의 # 뒤에서 비밀 키를 읽는다 (# 뒤는 서버로 전송되지 않는다)
-  //    o = 보낸 사람 기기 식별값, n = 보낸 사람 이름 (모두 # 뒤라 서버로 전송되지 않음)
-  const params = new URLSearchParams(location.hash.slice(1));
-  const linkKey = params.get('k');
-  const owner = (params.get('o') || '').slice(0, 64);
-  const ownerName = (params.get('n') || '').trim().slice(0, 30);
-  let keys = loadKeys();
-  let firstOpen = false;
+// 맨 위 제목: "○○님의 해제 코드" (이름이 없으면 "친구의 해제 코드")
+const titleOf = (x) => (x && x.n ? `🔑 ${x.n}님의 해제 코드` : '🔑 친구의 해제 코드');
+const whoseOf = (x) => (x && x.n ? `${x.n}님의 ` : '');
 
-  if (linkKey) {
-    if (!DetoxCode.isValidSecret(linkKey)) {
-      showError('링크가 올바르지 않아요. 친구에게 링크를 다시 보내 달라고 해 주세요.');
-    } else if (!keys.some((x) => x.k === linkKey)) {
-      // 같은 사람이 새 링크를 보냈으면 예전 링크(이제 쓸 수 없는 숫자)는 지운다
-      if (owner) keys = keys.filter((x) => x.o !== owner);
-      keys.push({ k: linkKey, o: owner, n: ownerName, added: Date.now() });
-      firstOpen = saveKeys(keys);
-      if (!firstOpen) showError('이 브라우저에 저장할 수 없어요. 비공개(시크릿) 모드라면 일반 모드로 다시 열어 주세요.');
-    }
-    // 주소창·방문 기록에 비밀 키가 남지 않게 지운다 (이 브라우저에는 저장되어 있음)
-    history.replaceState(null, '', location.pathname + location.search);
-  }
-
-  if (firstOpen) $('firstBanner').classList.remove('hidden');
-
-  if (keys.length === 0 && !$('error').textContent) {
-    showError('이 브라우저에는 저장된 해제 숫자가 없어요. 친구가 보낸 링크를 이 폰에서 처음 연 브라우저로 다시 열어 주세요.');
-  }
-
-  // 맨 위 제목: "○○님의 해제 코드" (이름이 없으면 "친구의 해제 코드")
-  const titleOf = (x) => (x && x.n ? `🔑 ${x.n}님의 해제 코드` : '🔑 친구의 해제 코드');
-  $('title').textContent = keys.length === 1 ? titleOf(keys[0]) : '🔑 친구의 해제 코드';
+function updateTitle() {
+  const shown = keys.filter(claimed);
+  $('title').textContent = shown.length === 1 ? titleOf(shown[0])
+    : (shown.length === 0 && keys.length === 1 ? titleOf(keys[0]) : '🔑 친구의 해제 코드');
   document.title = $('title').textContent;
+}
 
-  // 2) 오늘(한국 시간) 숫자 표시. 자정이 지나면 새 숫자로 바뀐다 (숫자는 저장하지 않는다)
-  async function render() {
-    const today = DetoxCode.kstDate();
-    const box = $('codes');
-    box.innerHTML = '';
-    for (let i = 0; i < keys.length; i++) {
-      const code = await DetoxCode.unlockCode(keys[i].k, today);
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML =
-        `<div class="label"></div>` +
-        `<div class="code">${code.slice(0, 3)} ${code.slice(3)}</div>` +
-        `<div class="meta">${today.replace(/-/g, '.')} · <span class="left"></span></div>`;
-      // 이름은 사용자가 입력한 글자라 textContent 로 넣는다
-      card.querySelector('.label').textContent =
-        keys.length > 1 ? titleOf(keys[i]).replace('🔑 ', '') : '오늘의 해제 숫자';
-      box.appendChild(card);
+// 2) 오늘(한국 시간) 숫자 표시. 처음 연 기기로 확인된 링크만 보여 준다 (숫자는 저장하지 않는다)
+let renderSeq = 0;
+async function render() {
+  const seq = ++renderSeq;
+  const shown = keys.filter(claimed);
+  const today = DetoxCode.kstDate();
+  // 숫자를 모두 계산한 뒤 한 번에 바꾼다 (겹쳐 그려도 카드가 두 번 생기지 않게)
+  const codes = await Promise.all(shown.map((key) => DetoxCode.unlockCode(key.k, today)));
+  if (seq !== renderSeq) return; // 그사이 더 새로 그리기 시작했으면 이전 결과는 버린다
+  const box = $('codes');
+  box.innerHTML = '';
+  for (const [i, key] of shown.entries()) {
+    const code = codes[i];
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML =
+      `<div class="label"></div>` +
+      `<div class="code">${code.slice(0, 3)} ${code.slice(3)}</div>` +
+      `<div class="meta">${today.replace(/-/g, '.')} · <span class="left"></span></div>`;
+    // 이름은 사용자가 입력한 글자라 textContent 로 넣는다
+    card.querySelector('.label').textContent =
+      shown.length > 1 ? titleOf(key).replace('🔑 ', '') : '오늘의 해제 숫자';
+    box.appendChild(card);
+  }
+  $('notes').classList.toggle('hidden', shown.length === 0);
+  $('installCard').classList.toggle('hidden', shown.length === 0);
+  updateTitle();
+  tick();
+}
+
+function tick() {
+  const ms = DetoxCode.msUntilKstMidnight();
+  const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000);
+  document.querySelectorAll('.left').forEach((el) => { el.textContent = `${h}시간 ${m}분 뒤 새 숫자`; });
+}
+
+// 3) 아직 확인하지 않은 링크는 Firebase 로 "처음 연 기기"인지 확인한다
+async function verifyPending() {
+  const pending = keys.filter((x) => x.c !== 1);
+  if (pending.length === 0) {
+    if (keys.length === 0 && $('error').classList.contains('hidden')) {
+      showError('이 브라우저에는 저장된 해제 숫자가 없어요. 친구가 보낸 링크를 이 폰에서 처음 연 브라우저로 다시 열어 주세요.');
     }
-    if (keys.length > 0) $('notes').classList.remove('hidden');
-    tick();
+    return;
   }
-
-  function tick() {
-    const ms = DetoxCode.msUntilKstMidnight();
-    const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000);
-    document.querySelectorAll('.left').forEach((el) => { el.textContent = `${h}시간 ${m}분 뒤 새 숫자`; });
-  }
-
-  let shownDate = DetoxCode.kstDate();
-  setInterval(() => {
-    const d = DetoxCode.kstDate();
-    if (d !== shownDate) { shownDate = d; render(); } else { tick(); }
-  }, 30000);
-  render();
-
-  // 3) 홈 화면에 추가
-  if (keys.length > 0) $('installCard').classList.remove('hidden');
-  let deferred = null;
-  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; });
-  $('installBtn').addEventListener('click', async () => {
-    if (deferred) {
-      deferred.prompt();
-      try { await deferred.userChoice; } catch (e) {}
-      deferred = null;
+  // 예전부터 보이던 링크만 확인할 때는 조용히 확인한다
+  if (pending.some((x) => x.c !== undefined)) $('checking').classList.remove('hidden');
+  let needsNet = false, needsSetup = false;
+  for (const key of pending) {
+    const r = await claim(key.k);
+    if (r === 'mine') {
+      if (key.c !== undefined) $('firstBanner').classList.remove('hidden');
+      key.c = 1;
+    } else if (r === 'other') {
+      key.c = -1;
+      showError(`이미 다른 기기에서 열린 ${whoseOf(key)}링크예요. 이 링크의 숫자는 처음 연 기기에서만 보여요. 필요하면 친구에게 새 링크를 보내 달라고 해 주세요.`);
+    } else if (key.c === undefined) {
+      // 예전부터 보이던 숫자는 확인을 못 해도 그대로 보여 준다 (다음에 다시 확인)
+    } else if (r === 'setup') {
+      needsSetup = true;
     } else {
-      $('howto').classList.toggle('open');
+      needsNet = true;
     }
-  });
-  window.addEventListener('appinstalled', () => $('installCard').classList.add('hidden'));
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
-
-  // 4) 나도 해보기 (설정이 비어 있으면 숨김)
-  const play = (window.DETOX_CONFIG && window.DETOX_CONFIG.playStoreUrl || '').trim();
-  if (play) {
-    try {
-      const url = new URL(play);
-      if (!url.searchParams.has('referrer')) url.searchParams.set('referrer', 'utm_source=friend_code');
-      if (!url.searchParams.has('utm_source')) url.searchParams.set('utm_source', 'friend_code');
-      $('tryLink').href = url.toString();
-      $('tryFooter').classList.remove('hidden');
-    } catch (e) { /* 잘못된 주소면 숨긴 채로 둔다 */ }
   }
-})();
+  saveKeys(keys);
+  $('checking').classList.add('hidden');
+  if (needsNet) showError('처음 한 번은 인터넷 연결이 필요해요. 연결을 확인한 뒤 이 페이지를 다시 열어 주세요.');
+  if (needsSetup) showError('지금은 링크를 확인할 수 없어요. 잠시 뒤 이 페이지를 다시 열어 주세요.');
+  render();
+}
+
+let shownDate = DetoxCode.kstDate();
+setInterval(() => {
+  const d = DetoxCode.kstDate();
+  if (d !== shownDate) { shownDate = d; render(); } else { tick(); }
+}, 30000);
+render();
+verifyPending();
+
+// 4) 홈 화면에 추가
+let deferred = null;
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; });
+$('installBtn').addEventListener('click', async () => {
+  if (deferred) {
+    deferred.prompt();
+    try { await deferred.userChoice; } catch (e) {}
+    deferred = null;
+  } else {
+    $('howto').classList.toggle('open');
+  }
+});
+window.addEventListener('appinstalled', () => $('installCard').classList.add('hidden'));
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+
+// 5) 나도 해보기 (설정이 비어 있으면 숨김)
+const play = (window.DETOX_CONFIG && window.DETOX_CONFIG.playStoreUrl || '').trim();
+if (play) {
+  try {
+    const url = new URL(play);
+    if (!url.searchParams.has('referrer')) url.searchParams.set('referrer', 'utm_source=friend_code');
+    if (!url.searchParams.has('utm_source')) url.searchParams.set('utm_source', 'friend_code');
+    $('tryLink').href = url.toString();
+    $('tryFooter').classList.remove('hidden');
+  } catch (e) { /* 잘못된 주소면 숨긴 채로 둔다 */ }
+}
 </script>
 </body>
 </html>
