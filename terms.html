@@ -140,7 +140,7 @@
     <ol>
       <li>링크는 친구 1명에게 1개만 보낼 수 있습니다.</li>
       <li>새 링크를 보내면 예전 링크는 더 이상 쓸 수 없습니다. 링크를 지우면 그 링크도 쓸 수 없습니다.</li>
-      <li>코드로 잠금을 푸는 것은 하루 1번만 할 수 있습니다. 숫자는 한국 시간 기준 매일 자정에 바뀝니다. 틀린 숫자를 5번 입력하면 10분 동안 입력할 수 없습니다.</li>
+      <li>코드로 잠금을 푸는 것은 하루 1번만 할 수 있습니다. 숫자는 링크를 보낸 이용자 기기의 시간대 기준으로 매일 자정에 바뀝니다(시간대 기능 전에 보낸 링크는 한국 시간 기준). "오늘은 사용함"과 하루 1번 제한도 같은 기준입니다. 틀린 숫자를 5번 입력하면 10분 동안 입력할 수 없습니다.</li>
       <li>링크에는 무작위로 만든 비밀 키, 이용자 기기를 구분하는 무작위 값, 이용자가 입력한 이름(선택)이 들어갑니다. 이 정보는 링크의 # 뒤에 들어가 웹페이지 서버로 전송되지 않고, 친구 기기의 브라우저에만 저장됩니다. 비밀 키 자체는 어떤 서버로도 보내지 않습니다.</li>
       <li>친구 기기에는 이용자의 앱 사용 내역, 연락처, 위치 등 다른 정보가 전달되지 않습니다.</li>
       <li>숫자는 링크를 처음 연 기기의 브라우저에서만 보입니다. 이를 위해 링크를 처음 열 때 Google Firebase(Firestore, 서울 리전)에 링크 지문(비밀 키로 계산한 되돌릴 수 없는 값), 처음 연 브라우저의 익명 계정 식별값, 처음 연 시각을 기록합니다. 같은 링크를 다른 기기나 브라우저에서 열면 숫자가 보이지 않습니다.</li>
@@ -165,7 +165,7 @@
     <h2>제9조 (광고와 보상형 광고)</h2>
     <ol>
       <li>앱에는 Google AdMob 광고가 표시될 수 있습니다. 잠금 중 디톡스 화면에는 광고를 표시하지 않습니다.</li>
-      <li>기록 화면의 상세 그래프, 기록 카드의 감성 템플릿과 내 사진 배경은 보상형 광고를 끝까지 보면 광고를 본 날 자정(한국 시간)까지 쓸 수 있고, 자정이 지나면 다시 잠깁니다. 광고를 보기 전에 먼저 이용자에게 묻습니다.</li>
+      <li>기록 화면의 상세 그래프, 기록 카드의 감성 템플릿과 내 사진 배경은 보상형 광고를 끝까지 보면 광고를 본 날 자정(이용자 기기의 시간대 기준)까지 쓸 수 있고, 자정이 지나면 다시 잠깁니다. 광고를 보기 전에 먼저 이용자에게 묻습니다.</li>
       <li>유럽경제지역(EEA)·영국·스위스 이용자에게는 광고 전에 맞춤 광고 동의를 받으며, 앱 메뉴의 "광고 개인정보 설정"에서 바꿀 수 있습니다.</li>
       <li>광고 내용과 광고를 눌러 이동한 곳의 서비스는 광고주와 해당 서비스 제공자가 책임집니다.</li>
     </ol>
@@ -374,7 +374,7 @@
     <ol>
       <li>You can have one link, sent to one friend.</li>
       <li>When you send a new link, the old one stops working. Deleting the link also disables it.</li>
-      <li>You can unlock with a code once a day. The number changes every day at midnight Korea time. After 5 wrong attempts, input is blocked for 10 minutes.</li>
+      <li>You can unlock with a code once a day. The number changes every day at midnight in the time zone of the device that sent the link (links sent before this feature use Korea time). "Used today" and the once-a-day limit follow the same time. After 5 wrong attempts, input is blocked for 10 minutes.</li>
       <li>The link contains a random secret key, a random value identifying your device and your name (optional). These are placed after the # in the link, so they are not sent to the web page's server and are stored only in your friend's browser. The secret key itself is never sent to any server.</li>
       <li>No other information, such as your app usage, contacts or location, is shared with your friend.</li>
       <li>The number appears only in the browser that first opened the link. To make this work, when the link is first opened we record in Google Firebase (Cloud Firestore, Seoul region) the link's fingerprint (an irreversible value derived from the secret key), an anonymous ID for that browser and the time it was opened. If the same link is opened on another device or browser, the number is not shown.</li>
@@ -399,7 +399,7 @@
     <h2>9. Ads and rewarded ads</h2>
     <ol>
       <li>The App may show Google AdMob ads. No ads are shown on the detox screen during a lock.</li>
-      <li>Detailed charts, premium card templates and your own photo background become available after you watch a rewarded ad to the end, until midnight (Korea time) that day, and lock again after midnight. We always ask before showing an ad.</li>
+      <li>Detailed charts, premium card templates and your own photo background become available after you watch a rewarded ad to the end, until midnight that day in your device's time zone, and lock again after midnight. We always ask before showing an ad.</li>
       <li>Users in the European Economic Area, the UK and Switzerland are asked for consent to personalized ads before any ads are shown, and can change this anytime under "Ad privacy settings" in the menu.</li>
       <li>Advertisers and the services you reach by tapping an ad are responsible for their own content.</li>
     </ol>

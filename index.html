@@ -187,6 +187,9 @@ function renderErrors() {
 // u = 보낸 사람이 코드로 해제한 날(한국 날짜). 그날은 숫자 대신 "오늘은 사용함"을 보여 준다
 const claimed = (x) => x.c === 1 || x.c === undefined;
 // 숫자는 1개만: 이 기기가 연 링크 중 가장 최근 것
+// 숫자가 바뀌는 자정: 링크를 보낸 사람 기기의 시간대 (예전 링크는 한국 시간)
+const zoneOf = (key) => DetoxCode.zoneOrLegacy(key && key.z);
+
 function current() {
   return keys.filter(claimed).sort((a, b) => (b.added || 0) - (a.added || 0))[0] || null;
 }
@@ -197,6 +200,8 @@ const params = new URLSearchParams(location.hash.slice(1));
 const linkKey = params.get('k');
 const owner = (params.get('o') || '').slice(0, 64);
 const ownerName = (params.get('n') || '').trim().slice(0, 30);
+// 링크를 보낸 사람 기기의 시간대. 없으면(이 기능 전에 보낸 링크) 한국 시간으로 계산한다
+const linkZone = DetoxCode.validZone(params.get('z')) ? params.get('z') : '';
 // 링크를 보낸 앱의 언어 (l=ko|en). 한 번 정하면 이 브라우저에 기억한다
 lang = pickLang(params.get('l'));
 if (params.get('l') === 'ko' || params.get('l') === 'en') { try { localStorage.setItem(LANG_KEY, lang); } catch (e) {} }
@@ -210,7 +215,7 @@ if (linkKey) {
   } else if (!keys.some((x) => x.k === linkKey)) {
     // 같은 사람이 새 링크를 보냈으면 예전 링크(이제 쓸 수 없는 숫자)는 지운다
     if (owner) keys = keys.filter((x) => x.o !== owner);
-    keys.push({ k: linkKey, o: owner, n: ownerName, added: Date.now(), c: 0 });
+    keys.push({ k: linkKey, o: owner, n: ownerName, z: linkZone, added: Date.now(), c: 0 });
     newKey = linkKey;
     storageOk = saveKeys(keys);
     if (!storageOk) showError('noStorage');
@@ -235,7 +240,8 @@ let renderSeq = 0;
 async function render() {
   const seq = ++renderSeq;
   const key = current();
-  const today = DetoxCode.kstDate();
+  const zone = zoneOf(key);
+  const today = DetoxCode.zoneDate(zone);
   const used = !!key && key.u === today;
   const code = key && !used ? await DetoxCode.unlockCode(key.k, today) : '';
   if (seq !== renderSeq) return; // 그사이 더 새로 그리기 시작했으면 이전 결과는 버린다
@@ -260,7 +266,7 @@ async function render() {
 }
 
 function tick() {
-  const ms = DetoxCode.msUntilKstMidnight();
+  const ms = DetoxCode.msUntilZoneMidnight(zoneOf(current()));
   const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000);
   document.querySelectorAll('.left').forEach((el) => { el.textContent = t('left', h, m); });
 }
@@ -322,9 +328,9 @@ document.querySelectorAll('[data-set-lang]').forEach((b) => b.addEventListener('
 }));
 applyLang();
 
-let shownDate = DetoxCode.kstDate();
+let shownDate = DetoxCode.zoneDate(zoneOf(current()));
 setInterval(() => {
-  const d = DetoxCode.kstDate();
+  const d = DetoxCode.zoneDate(zoneOf(current()));
   if (d !== shownDate) { shownDate = d; render(); } else { tick(); }
 }, 30000);
 render();
