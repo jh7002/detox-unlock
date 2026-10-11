@@ -35,14 +35,38 @@
   .part + .part { margin-top: 28px; }
   h1.doc { font-size: 22px; margin: 4px 0 4px; }
   .top { text-align: center; font-size: 14px; margin: 18px 0 0; }
+
+  .langs { display: flex; gap: 6px; justify-content: flex-end; margin-bottom: 6px; }
+  .langs button { font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 999px; border: 1.5px solid var(--line);
+    background: var(--card); color: var(--text); cursor: pointer; }
+  .langs button[aria-pressed="true"] { border-color: var(--green); color: var(--green); font-weight: 700; }
+  .notice { font-size: 14px; color: var(--sub); background: var(--card); border: 1px dashed var(--line);
+    border-radius: 12px; padding: 10px 14px; margin: 0 0 12px; }
+  [hidden] { display: none !important; }
 </style>
 </head>
 <body>
 <main>
-  <h1>🌿 디지털 디톡스</h1>
-  <p class="sub">이용약관과 개인정보처리방침 · 시행일 2026년 10월 11일</p>
-  <nav class="tabs"><a href="#terms">이용약관</a><a href="#privacy">개인정보처리방침</a></nav>
+  <div class="langs" role="group" aria-label="Language">
+    <button type="button" data-set-lang="ko">한국어</button>
+    <button type="button" data-set-lang="en">English</button>
+  </div>
 
+  <div data-lang="ko">
+    <h1>🌿 디지털 디톡스</h1>
+    <p class="sub">이용약관과 개인정보처리방침 · 시행일 2026년 10월 11일</p>
+  </div>
+  <div data-lang="en" hidden>
+    <h1>🌿 PhoneComma</h1>
+    <p class="sub">Terms of Service and Privacy Policy · Effective October 11, 2026</p>
+  </div>
+
+  <nav class="tabs">
+    <a href="#terms"><span data-lang="ko">이용약관</span><span data-lang="en" hidden>Terms</span></a>
+    <a href="#privacy"><span data-lang="ko">개인정보처리방침</span><span data-lang="en" hidden>Privacy Policy</span></a>
+  </nav>
+
+  <div data-lang="ko">
   <div id="terms" class="part">
   <h1 class="doc">이용약관</h1>
   <p class="sub">시행일 2026년 10월 11일</p>
@@ -142,6 +166,7 @@
     <ol>
       <li>앱에는 Google AdMob 광고가 표시될 수 있습니다. 잠금 중 디톡스 화면에는 광고를 표시하지 않습니다.</li>
       <li>기록 화면의 상세 그래프, 기록 카드의 감성 템플릿과 내 사진 배경은 보상형 광고를 끝까지 보면 광고를 본 날 자정(한국 시간)까지 쓸 수 있고, 자정이 지나면 다시 잠깁니다. 광고를 보기 전에 먼저 이용자에게 묻습니다.</li>
+      <li>유럽경제지역(EEA)·영국·스위스 이용자에게는 광고 전에 맞춤 광고 동의를 받으며, 앱 메뉴의 "광고 개인정보 설정"에서 바꿀 수 있습니다.</li>
       <li>광고 내용과 광고를 눌러 이동한 곳의 서비스는 광고주와 해당 서비스 제공자가 책임집니다.</li>
     </ol>
   </section>
@@ -184,6 +209,7 @@
   </section>
   </div>
 
+  
   <div id="privacy" class="part">
   <h1 class="doc">개인정보처리방침</h1>
   <p class="sub">시행일 2026년 10월 11일</p>
@@ -216,11 +242,12 @@
       <li>더 이상 쓸 수 없는 링크인지(새 링크를 보냈거나 링크를 지운 경우)</li>
       <li>이용자가 코드로 잠금을 푼 날짜(예: 2026-10-11). 해제 숫자는 저장하지 않습니다.</li>
     </ul>
-    <p>비밀 키, 해제 숫자, 이용자와 친구의 이름·전화번호는 저장하지 않습니다. 저장한 정보는 링크를 보낸 앱과 처음 연 브라우저만 읽을 수 있고, 아무도 지우거나 목록으로 볼 수 없습니다. 이 처리는 Google LLC(Firebase)에 맡기며, 삭제를 원하면 아래 문의처로 연락해 주세요.</p>
+    <p>비밀 키, 해제 숫자, 이용자와 친구의 이름·전화번호는 저장하지 않습니다. 저장한 정보는 링크를 보낸 앱과 처음 연 브라우저만 읽을 수 있습니다. 링크를 보낸 이용자는 앱 메뉴의 "내 데이터 삭제"로 자신의 링크 정보를 지울 수 있습니다. 이 처리는 Google LLC(Firebase)에 맡깁니다.</p>
   </section>
   <section>
     <h2>5. 광고</h2>
     <p>앱은 Google AdMob 광고를 표시합니다. 광고를 위해 Google이 광고 ID 등 기기 정보를 수집·이용할 수 있으며, 자세한 내용은 <a href="https://policies.google.com/technologies/ads?hl=ko">Google 광고 정책</a>을 따릅니다. 이용자는 기기 설정에서 광고 ID를 재설정하거나 맞춤 광고를 끌 수 있습니다.</p>
+    <p>유럽경제지역(EEA)·영국·스위스 이용자에게는 광고를 보여 주기 전에 Google의 동의 화면(UMP)으로 맞춤 광고 동의를 받으며, 앱 메뉴의 "광고 개인정보 설정"에서 언제든 바꾸거나 철회할 수 있습니다.</p>
   </section>
   <section>
     <h2>6. 기록 카드와 내 사진 배경</h2>
@@ -228,7 +255,39 @@
     <p>카드 배경으로 고른 내 사진은 안드로이드 사진 선택기로 이용자가 고른 1장만 읽으며(저장소 권한 없음), 다음에 다시 쓸 수 있도록 앱 안에만 복사해 둡니다. 서버로 보내지 않고, 새 사진을 고르면 바뀌며, 앱을 삭제하면 함께 지워집니다.</p>
   </section>
   <section>
-    <h2>7. 문의</h2>
+    <h2>7. 보관 기간과 내 데이터 삭제</h2>
+    <ul>
+      <li>기기 안의 정보: 이용자가 지우거나 앱을 삭제할 때까지 기기에만 보관합니다.</li>
+      <li>Firebase의 링크 정보: 이용자가 앱 메뉴의 "내 데이터 삭제"를 쓰거나 아래 문의처로 삭제를 요청할 때까지 보관합니다. 요청을 받으면 지체 없이(늦어도 30일 안에) 지웁니다.</li>
+      <li>광고 관련 정보: Google의 보관 정책을 따릅니다.</li>
+      <li>앱 메뉴의 <b>"내 데이터 삭제"</b>를 누르면 확인 후 기기 안의 기록·설정·링크·사진과 Firebase에 있는 내 링크 정보를 한 번에 지웁니다.</li>
+    </ul>
+  </section>
+  <section id="gdpr">
+    <h2>8. 유럽경제지역(EEA)·영국·스위스 이용자 안내 (GDPR)</h2>
+    <p><b>개인정보처리자</b>: 앱 개발자 (문의: befly020621@gmail.com)</p>
+    <p><b>처리 근거</b></p>
+    <ul>
+      <li>친구 해제 코드(Firebase 링크 정보): 이용자가 요청한 기능을 제공하기 위한 계약 이행(GDPR 제6조 1항 b). 친구 브라우저의 익명 식별값은 링크가 처음 연 기기에서만 보이게 하는 정당한 이익(제6조 1항 f).</li>
+      <li>맞춤 광고: 이용자의 동의(제6조 1항 a). 동의하지 않아도 앱의 모든 기능을 쓸 수 있습니다.</li>
+      <li>비맞춤 광고, 광고 사기 방지·보안: 정당한 이익(제6조 1항 f).</li>
+      <li>기기 안에서만 처리하는 정보(위 2)는 개발자에게 전송되지 않습니다.</li>
+    </ul>
+    <p><b>수집 항목과 목적</b></p>
+    <ul>
+      <li>Firebase: 링크 지문, 익명 계정 식별값, 링크 등록·처음 연 시각, 무효 여부, 코드 사용 날짜 — 친구 해제 코드 기능 제공</li>
+      <li>Google AdMob: 광고 ID 등 기기 식별값, 대략적인 위치(IP 기반), 앱 상호작용·진단 정보 — 광고 표시, 광고 성과 측정, 사기 방지</li>
+    </ul>
+    <p><b>국외 이전</b></p>
+    <ul>
+      <li>Firebase 링크 정보는 대한민국 서울(asia-northeast3)의 Google Cloud에 저장됩니다. 대한민국은 유럽연합 집행위원회의 적정성 결정을 받은 국가입니다.</li>
+      <li>Firebase 인증과 Google AdMob은 미국 등 Google의 전 세계 시설에서 처리될 수 있으며, Google은 EU-미국 데이터 프라이버시 프레임워크와 표준계약조항(SCC)에 따라 정보를 보호합니다.</li>
+    </ul>
+    <p><b>이용자의 권리</b>: 열람, 정정, 삭제, 처리 제한, 처리에 대한 이의 제기, 데이터 이동을 요청할 수 있고, 동의는 언제든 철회할 수 있습니다(광고 동의는 앱 메뉴의 "광고 개인정보 설정"). 삭제는 앱 메뉴의 "내 데이터 삭제"로 바로 할 수 있고, 그 밖의 요청은 befly020621@gmail.com으로 보내 주세요. 거주 국가의 개인정보 감독기관에 민원을 제기할 수도 있습니다.</p>
+    <p><b>아동</b>: 앱은 만 13세 미만 아동을 대상으로 하지 않습니다.</p>
+  </section>
+  <section>
+    <h2>9. 문의</h2>
     <p>개인정보에 관한 문의: <a href="mailto:befly020621@gmail.com">befly020621@gmail.com</a></p>
   </section>
   <section>
@@ -237,7 +296,299 @@
   </section>
   </div>
 
-  <p class="top"><a href="#terms">↑ 맨 위로</a></p>
+  
+  </div>
+
+  <div data-lang="en" hidden>
+  <p class="notice">This is a translation. If there is any difference between the Korean and English versions, the Korean version prevails.</p>
+  <div id="terms-en" class="part">
+  <h1 class="doc">Terms of Service</h1>
+  <p class="sub">Effective October 11, 2026</p>
+  <section>
+    <h2>1. Purpose</h2>
+    <p>These Terms set out the rights, obligations and responsibilities of the developer and users of PhoneComma (the "App"). The App is a digital detox app that helps you spend less time on your smartphone for periods you choose yourself.</p>
+  </section>
+  <section>
+    <h2>2. Definitions</h2>
+    <ol>
+      <li><b>Lock</b>: a state, for a period you set, in which apps other than the always-available features and the apps you allow send you back to the detox screen.</li>
+      <li><b>Detox screen</b>: the App screen shown during a lock, displaying the remaining time and what you can still use.</li>
+      <li><b>Stages</b>: a feature that gradually increases lock length: 1 min → 10 min → 30 min → 1 hr. Progress resets to Stage 1 every day at midnight.</li>
+      <li><b>Custom lock</b>: a lock whose length you pick in hours and minutes (up to 13 hours).</li>
+      <li><b>Scheduled lock</b>: a lock that starts automatically on days and times you set in advance.</li>
+      <li><b>Allowed apps</b>: apps you choose in advance to use during a lock. Together they can be used for up to 10 minutes at a time, 3 times a day.</li>
+      <li><b>Work apps</b>: apps you choose to use without limits during a lock while Work mode is on.</li>
+      <li><b>Friend unlock code</b>: a 6-digit number shown on the device of the one friend you sent a link to, which lets you end a lock once a day.</li>
+    </ol>
+  </section>
+  <section>
+    <h2>3. Effect and changes</h2>
+    <ol>
+      <li>These Terms take effect when you agree to them on first launch.</li>
+      <li>The developer may change these Terms to the extent permitted by law.</li>
+      <li>We will announce changes and their effective date in the App and on this page at least 7 days in advance, or 30 days in advance for changes that are unfavorable to you.</li>
+      <li>If you don't agree with the changes, you can stop using and uninstall the App. Continuing to use the App after the effective date means you accept the changes.</li>
+    </ol>
+  </section>
+  <section>
+    <h2>4. What the App offers</h2>
+    <p>The App provides the following features free of charge:</p>
+    <ul>
+      <li>Stage locks (1 min, 10 min, 30 min, 1 hr) and custom locks (up to 13 hours)</li>
+      <li>Modes: scheduled lock, Favorites only (only starred contacts can ring), Work mode</li>
+      <li>Allowed apps and work apps during a lock</li>
+      <li>Do Not Disturb during a lock</li>
+      <li>Friend unlock code</li>
+      <li>Detox history, comparison with screen-on time, charts, a growing tree, and shareable cards</li>
+    </ul>
+  </section>
+  <section>
+    <h2>5. Restrictions during a lock and always-available features</h2>
+    <ol>
+      <li>During a lock, you can't use apps other than the always-available features below, allowed apps (10 minutes at a time, 3 times a day) and work apps (while Work mode is on). The home screen, recent apps and Settings also return to the detox screen.</li>
+      <li>Once started, a lock can't be ended before its time is up. However, you can end it once a day with a friend unlock code, and it ends automatically if an error prevents the App from working properly.</li>
+      <li>During a lock you can't change App settings such as allowed apps, modes, Do Not Disturb or the friend unlock code.</li>
+      <li>The following always work during a lock:
+        <ul>
+          <li>Phone: answering and making calls, the call screen and the default phone app. The detox screen never covers an incoming or ongoing call.</li>
+          <li>Messages: the default messaging app</li>
+          <li>Emergency calls and the device's emergency features</li>
+          <li>Alarms: alarms are set to ring even when Do Not Disturb is on.</li>
+          <li>Emergency alerts: when an emergency or public safety alert appears, the detox screen steps aside.</li>
+        </ul>
+      </li>
+      <li>Some features may behave differently depending on your device maker, Android version and carrier settings. In an emergency, please use your device's emergency call feature.</li>
+    </ol>
+  </section>
+  <section>
+    <h2>6. Your responsibilities</h2>
+    <ol>
+      <li>You decide lock lengths and scheduled locks yourself. The App never starts a lock you didn't set up.</li>
+      <li>If you're expecting important plans or calls, choose your lock length carefully, and add apps you really need as allowed apps or work apps in advance.</li>
+      <li>Send the friend unlock link only to someone you trust, and don't open the link yourself. You are responsible for any issues caused by sharing the link with others.</li>
+      <li>You must not use the App for purposes that violate the law or these Terms.</li>
+    </ol>
+  </section>
+  <section>
+    <h2>7. Friend unlock code</h2>
+    <ol>
+      <li>You can have one link, sent to one friend.</li>
+      <li>When you send a new link, the old one stops working. Deleting the link also disables it.</li>
+      <li>You can unlock with a code once a day. The number changes every day at midnight Korea time. After 5 wrong attempts, input is blocked for 10 minutes.</li>
+      <li>The link contains a random secret key, a random value identifying your device and your name (optional). These are placed after the # in the link, so they are not sent to the web page's server and are stored only in your friend's browser. The secret key itself is never sent to any server.</li>
+      <li>No other information, such as your app usage, contacts or location, is shared with your friend.</li>
+      <li>The number appears only in the browser that first opened the link. To make this work, when the link is first opened we record in Google Firebase (Cloud Firestore, Seoul region) the link's fingerprint (an irreversible value derived from the secret key), an anonymous ID for that browser and the time it was opened. If the same link is opened on another device or browser, the number is not shown.</li>
+      <li>When you send a new link or delete the link, the old link's number disappears from your friend's page and it shows "no longer valid". Your friend's page shows only the number for the most recent link, and shows "used today" instead of the number if you already unlocked with a code that day. In the App you can see whether and when your friend opened the link. Without an internet connection these updates may be delayed.</li>
+      <li>If you open your own link first, your browser becomes the first device and your friend won't be able to see the number. If your friend clears site data in the browser that first opened the link, it can't be viewed there again. In either case, send a new link.</li>
+      <li>When you unlock with a code, your history records "Unlocked with code", and only the time you were actually locked counts as detox time.</li>
+    </ol>
+  </section>
+  <section>
+    <h2>8. Permissions and why we need them</h2>
+    <ul>
+      <li><b>Display over other apps</b> (required): to briefly cover apps that aren't allowed during a lock and show the detox screen.</li>
+      <li><b>Usage access</b> (required): to check which app is open and to calculate screen-on time. Per-app usage never leaves your device.</li>
+      <li><b>Notifications</b> (optional): to show remaining time, allowed-app updates and scheduled lock reminders.</li>
+      <li><b>Do Not Disturb access</b> (optional): to turn on Do Not Disturb during a lock and restore it afterward.</li>
+      <li><b>Alarms &amp; reminders</b> (optional): to start scheduled locks on time.</li>
+      <li><b>Contacts</b> (optional): only to check whether you have starred contacts for Favorites only mode.</li>
+      <li><b>Foreground service, run at startup</b>: runs only during a lock and resumes a remaining lock after a reboot.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>9. Ads and rewarded ads</h2>
+    <ol>
+      <li>The App may show Google AdMob ads. No ads are shown on the detox screen during a lock.</li>
+      <li>Detailed charts, premium card templates and your own photo background become available after you watch a rewarded ad to the end, until midnight (Korea time) that day, and lock again after midnight. We always ask before showing an ad.</li>
+      <li>Users in the European Economic Area, the UK and Switzerland are asked for consent to personalized ads before any ads are shown, and can change this anytime under "Ad privacy settings" in the menu.</li>
+      <li>Advertisers and the services you reach by tapping an ad are responsible for their own content.</li>
+    </ol>
+  </section>
+  <section>
+    <h2>10. Changes to or suspension of the service</h2>
+    <ol>
+      <li>The developer may change, add or remove App features, and will announce significant changes in the App.</li>
+      <li>The developer may suspend all or part of the service for operational or technical reasons, with advance notice where possible.</li>
+      <li>The friend unlock code page runs on GitHub Pages and Google Firebase, and may be temporarily unavailable, or unable to confirm the first device, because of outages or policy changes at those services. On an already confirmed device, the number appears even without an internet connection.</li>
+    </ol>
+  </section>
+  <section>
+    <h2>11. Limitation of liability</h2>
+    <ol>
+      <li>The App is provided free of charge and "as is". The developer does not promise that it will work without errors on every device.</li>
+      <li>Locks, notifications, scheduled locks, Do Not Disturb and other features may behave differently or be limited because of device maker settings, network conditions, battery optimization, or changes to Android or Google Play policies.</li>
+      <li>To the extent permitted by law, the developer is not liable for inconvenience or loss caused by being unable to use certain features during a lock you set.</li>
+      <li>Notwithstanding the above, the developer is liable under applicable law for damage caused by the developer's intent or gross negligence.</li>
+    </ol>
+  </section>
+  <section>
+    <h2>12. Privacy</h2>
+    <p>The developer protects your personal information in accordance with applicable law. See the <a href="#privacy-en">Privacy Policy</a> for details.</p>
+  </section>
+  <section>
+    <h2>13. Contact</h2>
+    <p>For questions about the App, please email us.</p>
+    <p>Email: <a href="mailto:befly020621@gmail.com">befly020621@gmail.com</a></p>
+  </section>
+  <section>
+    <h2>14. Governing law and jurisdiction</h2>
+    <ol>
+      <li>These Terms are governed by and interpreted under the laws of the Republic of Korea.</li>
+      <li>Any dispute about using the App will first be resolved through good-faith discussion. If that fails, either party may bring a claim before the court with jurisdiction under the Korean Civil Procedure Act. This does not limit any mandatory consumer protection rights you have under the laws of your country of residence.</li>
+    </ol>
+  </section>
+  <section>
+    <h2>Addendum</h2>
+    <p>These Terms take effect on October 11, 2026.</p>
+  </section>
+</div>
+
+  <div id="privacy-en" class="part">
+  <h1 class="doc">Privacy Policy</h1>
+  <p class="sub">Effective October 11, 2026</p>
+  <section>
+    <h2>1. Basic principles</h2>
+    <p>PhoneComma (the "App") has no sign-up. Your detox history and settings are stored only on your device. Only the friend unlock code uses Google Firebase, so that the number is shown only on the device that first opened the link (see sections 3 and 4).</p>
+  </section>
+  <section>
+    <h2>2. Information processed only on your device</h2>
+    <ul>
+      <li>Lock, stage, schedule and mode settings, and your lists of allowed apps and work apps</li>
+      <li>Detox history (start and end times, type, and an "Unlocked with code" note)</li>
+      <li>Screen-on time (daily and hourly totals), calculated with Usage access. Per-app usage is never stored or sent anywhere.</li>
+      <li>Friend unlock code: your friend's phone number if you sent the link by text (not stored if you shared it through another app), the date you sent it, a random secret key, your name (optional) and a random device value. Your friend's name is not stored, and when you pick from contacts, only the one number you choose is read. You can have only one link, and old links that no longer work are deleted automatically.</li>
+      <li>For Favorites only mode, a check of whether you have starred contacts (contact details are not read or stored)</li>
+      <li>The photo you choose as a card background (see section 6)</li>
+    </ul>
+    <p>This information is removed when you uninstall the App or use "Delete my data".</p>
+  </section>
+  <section>
+    <h2>3. Information shared with your friend</h2>
+    <p>The friend unlock link contains a random secret key, a random device value and your name (optional). These are placed after the # in the link, so they are not sent to the web page's server (GitHub Pages) and are stored only in your friend's browser. You send the message yourself; the App never sends it on your behalf.</p>
+  </section>
+  <section>
+    <h2>4. First-device check (Google Firebase)</h2>
+    <p>For each friend unlock link we store the following in Google Firebase (Cloud Firestore, Seoul region asia-northeast3). This lets the number appear only on the device that first opened the link, disables old links, and shows whether the code was used today and whether your friend opened the link.</p>
+    <ul>
+      <li>Link fingerprint: a SHA-256 value derived from the secret key. It can't be used to recover the key or the unlock number.</li>
+      <li>Anonymous account IDs: random values created by Firebase anonymous sign-in for your App and for your friend's browser. They are not linked to any name, phone number or email.</li>
+      <li>When the link was sent (registered) and when your friend first opened it</li>
+      <li>Whether the link is no longer valid (because you sent a new one or deleted it)</li>
+      <li>The date you unlocked with a code (e.g. 2026-10-11). The unlock number itself is never stored.</li>
+    </ul>
+    <p>We never store the secret key, the unlock number, or your or your friend's name or phone number. Only the App that sent the link and the browser that first opened it can read this information. You can delete your link information at any time with "Delete my data" in the App menu. This processing is carried out by Google LLC (Firebase) on our behalf.</p>
+  </section>
+  <section>
+    <h2>5. Ads</h2>
+    <p>The App shows Google AdMob ads. To serve ads, Google may collect and use device information such as your advertising ID; see <a href="https://policies.google.com/technologies/ads">Google's advertising policies</a> for details. You can reset your advertising ID or opt out of personalized ads in your device settings.</p>
+    <p>Users in the European Economic Area, the UK and Switzerland are asked for consent to personalized ads through Google's consent message (UMP) before any ads are shown, and can change or withdraw consent anytime under "Ad privacy settings" in the App menu.</p>
+  </section>
+  <section>
+    <h2>6. Share cards and your own photo background</h2>
+    <p>Cards leave your device only when you share them or save them to your gallery. Cards never include per-app usage.</p>
+    <p>For a photo background, the App reads only the one photo you pick with the Android photo picker (no storage permission), and keeps a copy inside the App so you can reuse it. It is never uploaded, is replaced when you pick a new photo, and is deleted when you uninstall the App or use "Delete my data".</p>
+  </section>
+  <section>
+    <h2>7. Retention and deleting your data</h2>
+    <ul>
+      <li>Information on your device: kept on your device until you delete it or uninstall the App.</li>
+      <li>Link information in Firebase: kept until you use "Delete my data" in the App or ask us to delete it. We delete it without undue delay, and within 30 days at the latest.</li>
+      <li>Ad-related information: retained according to Google's policies.</li>
+      <li>Tapping <b>"Delete my data"</b> in the App menu deletes, after confirmation, your history, settings, link and photo on your device together with your link information in Firebase.</li>
+    </ul>
+  </section>
+  <section id="gdpr-en">
+    <h2>8. Users in the EEA, UK and Switzerland (GDPR)</h2>
+    <p><b>Controller</b>: the App's developer (contact: befly020621@gmail.com)</p>
+    <p><b>Legal bases</b></p>
+    <ul>
+      <li>Friend unlock code (link information in Firebase): performance of a contract, to provide the feature you request (Art. 6(1)(b) GDPR). The anonymous ID of your friend's browser is processed on the basis of our legitimate interest in showing the number only on the first device (Art. 6(1)(f)).</li>
+      <li>Personalized ads: your consent (Art. 6(1)(a)). You can use every feature of the App without consenting.</li>
+      <li>Non-personalized ads and ad fraud prevention and security: legitimate interests (Art. 6(1)(f)).</li>
+      <li>Information processed only on your device (section 2) is never sent to the developer.</li>
+    </ul>
+    <p><b>What we collect and why</b></p>
+    <ul>
+      <li>Firebase: link fingerprint, anonymous account IDs, registration and first-open times, validity status and the date a code was used — to provide the friend unlock code.</li>
+      <li>Google AdMob: device identifiers such as the advertising ID, approximate location (based on IP address), app interactions and diagnostics — to show ads, measure ad performance and prevent fraud.</li>
+    </ul>
+    <p><b>International transfers</b></p>
+    <ul>
+      <li>Firebase link information is stored on Google Cloud in Seoul, Republic of Korea (asia-northeast3). The Republic of Korea is covered by an adequacy decision of the European Commission.</li>
+      <li>Firebase Authentication and Google AdMob may process data at Google facilities worldwide, including the United States. Google protects such transfers under the EU-U.S. Data Privacy Framework and Standard Contractual Clauses.</li>
+    </ul>
+    <p><b>Your rights</b>: you have the right to access, rectify and erase your data, to restrict processing, to object to processing and to data portability, and you can withdraw consent at any time (for ads, via "Ad privacy settings" in the App menu). You can delete your data right away with "Delete my data" in the App menu; for other requests, email befly020621@gmail.com. You also have the right to lodge a complaint with your local data protection authority.</p>
+    <p><b>Children</b>: the App is not directed at children under 13.</p>
+  </section>
+  <section>
+    <h2>9. Contact</h2>
+    <p>Privacy questions: <a href="mailto:befly020621@gmail.com">befly020621@gmail.com</a></p>
+  </section>
+  <section>
+    <h2>Addendum</h2>
+    <p>This Privacy Policy takes effect on October 11, 2026.</p>
+  </section>
+</div>
+
+  </div>
+
+  <p class="top"><a href="#terms"><span data-lang="ko">↑ 맨 위로</span><span data-lang="en" hidden>↑ Back to top</span></a></p>
 </main>
+<script>
+(function () {
+  // 언어: 주소의 ?lang= → 이전에 고른 언어 → 브라우저 언어 (한국어가 아니면 영어)
+  var KEY = 'detox_lang';
+  function pick() {
+    var q = new URLSearchParams(location.search).get('lang');
+    if (q === 'ko' || q === 'en') return q;
+    try { var saved = localStorage.getItem(KEY); if (saved === 'ko' || saved === 'en') return saved; } catch (e) {}
+    return (navigator.language || '').toLowerCase().indexOf('ko') === 0 ? 'ko' : 'en';
+  }
+  var lang = pick();
+  var TITLES = { ko: '이용약관 · 개인정보처리방침 · 디지털 디톡스', en: 'Terms of Service · Privacy Policy · PhoneComma' };
+
+  // #terms, #privacy 는 언어와 상관없이 같은 주소로 쓴다 (Play 콘솔에 넣는 주소)
+  function target(hash) {
+    var id = (hash || '').replace('#', '').replace(/-en$/, '');
+    if (!id) return null;
+    return document.getElementById(lang === 'en' ? id + '-en' : id) || document.getElementById(id);
+  }
+  function scrollToHash() {
+    var el = target(location.hash);
+    if (el) el.scrollIntoView();
+  }
+  function apply() {
+    document.documentElement.lang = lang;
+    document.title = TITLES[lang];
+    document.querySelectorAll('[data-lang]').forEach(function (el) { el.hidden = el.getAttribute('data-lang') !== lang; });
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+  }
+  document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      lang = b.getAttribute('data-set-lang');
+      try { localStorage.setItem(KEY, lang); } catch (e) {}
+      var u = new URL(location.href); u.searchParams.set('lang', lang);
+      history.replaceState(null, '', u.toString());
+      apply();
+      // 언어를 바꾼 뒤 화면이 다시 그려지면 같은 부분(#privacy 등)으로 이동
+      requestAnimationFrame(function () { requestAnimationFrame(scrollToHash); });
+    });
+  });
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var el = target(a.getAttribute('href'));
+    if (!el) return;
+    e.preventDefault();
+    history.replaceState(null, '', location.pathname + location.search + a.getAttribute('href').replace(/-en$/, ''));
+    el.scrollIntoView({ behavior: 'smooth' });
+  });
+  apply();
+  window.addEventListener('load', scrollToHash);
+  setTimeout(scrollToHash, 0);
+})();
+</script>
 </body>
 </html>
