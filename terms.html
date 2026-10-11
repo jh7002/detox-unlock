@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2E7D6B">
-<title>이용약관 · 디지털 디톡스</title>
+<title>이용약관 · 개인정보처리방침 · 디지털 디톡스</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
   :root { --bg: #F4FAF7; --card: #FFFFFF; --text: #1B3B33; --sub: #5B746C; --green: #2E7D6B; --line: #DCE9E3; }
@@ -27,14 +27,25 @@
   ul, ol { padding-left: 22px; }
   li { margin-bottom: 4px; }
   a { color: var(--green); }
-  nav { font-size: 14px; margin-bottom: 16px; }
+  html { scroll-behavior: smooth; }
+  .tabs { position: sticky; top: 0; z-index: 1; display: flex; gap: 8px; padding: 10px 0; margin-bottom: 8px; background: var(--bg); }
+  .tabs a { flex: 1; text-align: center; text-decoration: none; font-weight: 700; font-size: 15px;
+    padding: 10px 8px; border-radius: 12px; border: 1.5px solid var(--green); color: var(--green); }
+  .part { scroll-margin-top: 64px; padding-top: 8px; }
+  .part + .part { margin-top: 28px; }
+  h1.doc { font-size: 22px; margin: 4px 0 4px; }
+  .top { text-align: center; font-size: 14px; margin: 18px 0 0; }
 </style>
 </head>
 <body>
 <main>
-  <h1>🌿 디지털 디톡스 이용약관</h1>
+  <h1>🌿 디지털 디톡스</h1>
+  <p class="sub">이용약관과 개인정보처리방침 · 시행일 2026년 10월 11일</p>
+  <nav class="tabs"><a href="#terms">이용약관</a><a href="#privacy">개인정보처리방침</a></nav>
+
+  <div id="terms" class="part">
+  <h1 class="doc">이용약관</h1>
   <p class="sub">시행일 2026년 10월 11일</p>
-  <nav><a href="terms.html">이용약관</a> · <a href="privacy.html">개인정보처리방침</a></nav>
   <section>
     <h2>제1조 (목적)</h2>
     <p>이 약관은 디지털 디톡스(이하 "앱")를 이용하는 데 필요한 개발자와 이용자의 권리, 의무, 책임 사항과 그 밖에 필요한 사항을 정하는 것을 목적으로 합니다. 앱은 이용자가 스스로 정한 시간 동안 스마트폰 사용을 줄일 수 있도록 돕는 디지털 디톡스 앱입니다.</p>
@@ -153,7 +164,7 @@
   </section>
   <section>
     <h2>제12조 (개인정보 보호)</h2>
-    <p>개발자는 이용자의 개인정보를 관련 법령에 따라 보호합니다. 자세한 내용은 <a href="privacy.html">개인정보처리방침</a>을 따릅니다.</p>
+    <p>개발자는 이용자의 개인정보를 관련 법령에 따라 보호합니다. 자세한 내용은 <a href="#privacy">개인정보처리방침</a>을 따릅니다.</p>
   </section>
   <section>
     <h2>제13조 (문의처)</h2>
@@ -171,7 +182,62 @@
     <h2>부칙</h2>
     <p>이 약관은 2026년 10월 11일부터 시행합니다.</p>
   </section>
+  </div>
 
+  <div id="privacy" class="part">
+  <h1 class="doc">개인정보처리방침</h1>
+  <p class="sub">시행일 2026년 10월 11일</p>
+  <section>
+    <h2>1. 기본 원칙</h2>
+    <p>디지털 디톡스(이하 "앱")는 회원가입이 없습니다. 디톡스 기록과 설정은 이용자의 기기 안에만 저장됩니다. 친구 해제 코드 웹페이지만 "처음 연 기기에서만 숫자가 보이도록" 확인하기 위해 Google Firebase를 씁니다(아래 3, 4).</p>
+  </section>
+  <section>
+    <h2>2. 기기 안에서만 처리하는 정보</h2>
+    <ul>
+      <li>잠금·단계·예약 일정·모드 설정, 허용 앱과 업무 앱 목록</li>
+      <li>디톡스 기록(잠금 시작·끝 시각, 종류, "코드로 해제" 메모)</li>
+      <li>화면이 켜져 있던 시간(하루 합계와 시간대별 합계). 사용 정보 접근 권한으로 계산하며, 앱별 사용 내역은 저장하거나 밖으로 보내지 않습니다.</li>
+      <li>친구 해제 코드: 문자로 보낸 친구 전화번호(다른 앱으로 공유하면 저장하지 않음), 링크 보낸 날짜, 무작위 비밀 키, 내 이름(선택), 무작위 기기 구분값. 친구 이름은 저장하지 않으며, 연락처에서 고르면 고른 전화번호 하나만 읽습니다. 링크는 친구 1명에게 1개만 보낼 수 있고, 쓸 수 없게 된 예전 링크는 자동으로 지웁니다.</li>
+      <li>'중요한 사람만' 모드에서 즐겨찾기 연락처 수 확인(연락처 내용은 읽어 저장하지 않습니다)</li>
+    </ul>
+    <p>이 정보는 앱을 삭제하면 함께 지워집니다.</p>
+  </section>
+  <section>
+    <h2>3. 친구에게 전달되는 정보</h2>
+    <p>친구 해제 코드 링크에는 무작위 비밀 키, 무작위 기기 구분값, 이용자가 입력한 이름(선택)이 들어갑니다. 이 값은 링크의 # 뒤에 있어 웹페이지 서버(GitHub Pages)로 전송되지 않고, 친구 기기의 브라우저에만 저장됩니다. 문자는 이용자가 직접 보내며, 앱이 대신 보내지 않습니다.</p>
+  </section>
+  <section>
+    <h2>4. 처음 연 기기 확인 (Google Firebase)</h2>
+    <p>친구 해제 코드 링크마다 아래 정보를 Google Firebase(Cloud Firestore, 서울 리전 asia-northeast3)에 저장합니다. 처음 연 기기에서만 숫자가 보이게 하고, 예전 링크를 쓸 수 없게 하고, 오늘 이미 썼는지와 친구가 링크를 열었는지를 알려 주기 위해서입니다.</p>
+    <ul>
+      <li>링크 지문: 비밀 키로 계산한 SHA-256 값. 이 값으로 비밀 키나 해제 숫자를 알아낼 수 없습니다.</li>
+      <li>익명 계정 식별값: Firebase 익명 로그인이 이용자의 앱과 친구의 브라우저마다 만드는 무작위 값. 이름, 전화번호, 이메일과 연결되지 않습니다.</li>
+      <li>링크를 보낸(등록한) 시각, 친구가 처음 연 시각</li>
+      <li>더 이상 쓸 수 없는 링크인지(새 링크를 보냈거나 링크를 지운 경우)</li>
+      <li>이용자가 코드로 잠금을 푼 날짜(예: 2026-10-11). 해제 숫자는 저장하지 않습니다.</li>
+    </ul>
+    <p>비밀 키, 해제 숫자, 이용자와 친구의 이름·전화번호는 저장하지 않습니다. 저장한 정보는 링크를 보낸 앱과 처음 연 브라우저만 읽을 수 있고, 아무도 지우거나 목록으로 볼 수 없습니다. 이 처리는 Google LLC(Firebase)에 맡기며, 삭제를 원하면 아래 문의처로 연락해 주세요.</p>
+  </section>
+  <section>
+    <h2>5. 광고</h2>
+    <p>앱은 Google AdMob 광고를 표시합니다. 광고를 위해 Google이 광고 ID 등 기기 정보를 수집·이용할 수 있으며, 자세한 내용은 <a href="https://policies.google.com/technologies/ads?hl=ko">Google 광고 정책</a>을 따릅니다. 이용자는 기기 설정에서 광고 ID를 재설정하거나 맞춤 광고를 끌 수 있습니다.</p>
+  </section>
+  <section>
+    <h2>6. 기록 카드와 내 사진 배경</h2>
+    <p>기록 카드는 이용자가 공유하거나 갤러리에 저장할 때만 기기 밖으로 나갑니다. 카드에는 앱별 사용 내역이 들어가지 않습니다.</p>
+    <p>카드 배경으로 고른 내 사진은 안드로이드 사진 선택기로 이용자가 고른 1장만 읽으며(저장소 권한 없음), 다음에 다시 쓸 수 있도록 앱 안에만 복사해 둡니다. 서버로 보내지 않고, 새 사진을 고르면 바뀌며, 앱을 삭제하면 함께 지워집니다.</p>
+  </section>
+  <section>
+    <h2>7. 문의</h2>
+    <p>개인정보에 관한 문의: <a href="mailto:befly020621@gmail.com">befly020621@gmail.com</a></p>
+  </section>
+  <section>
+    <h2>부칙</h2>
+    <p>이 개인정보처리방침은 2026년 10월 11일부터 시행합니다.</p>
+  </section>
+  </div>
+
+  <p class="top"><a href="#terms">↑ 맨 위로</a></p>
 </main>
 </body>
 </html>
