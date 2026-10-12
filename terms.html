@@ -215,7 +215,7 @@
   <p class="sub">시행일 2026년 10월 11일</p>
   <section>
     <h2>1. 기본 원칙</h2>
-    <p>디지털 디톡스(이하 "앱")는 회원가입이 없습니다. 디톡스 기록과 설정은 이용자의 기기 안에만 저장됩니다. 친구 해제 코드 웹페이지만 "처음 연 기기에서만 숫자가 보이도록" 확인하기 위해 Google Firebase를 씁니다(아래 3, 4).</p>
+    <p>디지털 디톡스(이하 "앱")는 회원가입이 없습니다. 디톡스 기록과 설정은 이용자의 기기 안에만 저장됩니다. 친구 해제 코드에 Google Firebase를 쓰고(아래 3, 4), 앱 개선을 위해 개인을 알 수 없는 사용 통계를 모읍니다(아래 6).</p>
   </section>
   <section>
     <h2>2. 기기 안에서만 처리하는 정보</h2>
@@ -249,45 +249,57 @@
     <p>앱은 Google AdMob 광고를 표시합니다. 광고를 위해 Google이 광고 ID 등 기기 정보를 수집·이용할 수 있으며, 자세한 내용은 <a href="https://policies.google.com/technologies/ads?hl=ko">Google 광고 정책</a>을 따릅니다. 이용자는 기기 설정에서 광고 ID를 재설정하거나 맞춤 광고를 끌 수 있습니다.</p>
     <p>유럽경제지역(EEA)·영국·스위스 이용자에게는 광고를 보여 주기 전에 Google의 동의 화면(UMP)으로 맞춤 광고 동의를 받으며, 앱 메뉴의 "광고 개인정보 설정"에서 언제든 바꾸거나 철회할 수 있습니다.</p>
   </section>
+  <section id="analytics">
+    <h2>6. 사용 통계 (Google Firebase 애널리틱스)</h2>
+    <p>앱을 더 쓰기 좋게 고치기 위해 Google의 Firebase 애널리틱스로 사용 통계를 모읍니다. 이름, 전화번호, 이메일, 연락처, 사진, 앱별 사용 내역, 친구 해제 코드 숫자처럼 이용자를 알아볼 수 있는 정보는 보내지 않습니다.</p>
+    <ul>
+      <li><b>수집 항목</b>: 앱 인스턴스 ID(앱 설치마다 만들어지는 무작위 값), 기기 모델·안드로이드 버전·앱 버전·언어, 대략적인 국가·지역(IP 주소로 추정하며 IP 주소 자체는 저장하지 않음), 앱 사용 이벤트(앱 실행, 권한 설정 완료, 잠금 시작·완료와 종류·단계·분, 예약 잠금 실행, 자유 이용권 사용, 친구 링크 보내기와 방법, 코드로 해제, 기록 카드 공유와 카드 종류, 보상형 광고 시청 완료, 언어 변경), 첫 실행·세션 같은 자동 수집 이벤트</li>
+      <li><b>목적</b>: 기능별 사용량, 재접속률, 처음 쓰는 흐름(권한 설정 → 첫 잠금)에서 어려운 단계를 파악해 앱을 개선하기 위해서입니다. 광고 맞춤화나 다른 회사 판매에는 쓰지 않습니다.</li>
+      <li><b>보관 기간</b>: Google 애널리틱스의 이벤트 데이터 보관 기간(최대 14개월) 동안 보관하고, 그 뒤에는 자동으로 지워집니다. 통계 보고서에는 개인을 알 수 없는 합계만 남습니다.</li>
+      <li><b>선택권</b>: 유럽경제지역·영국·스위스 이용자는 동의한 경우에만 수집하며(동의 전에는 수집하지 않음), 앱 메뉴의 "광고 개인정보 설정"에서 광고와 함께 바꿀 수 있습니다. "내 데이터 삭제"를 누르면 이 기기의 애널리틱스 식별값도 초기화됩니다.</li>
+    </ul>
+  </section>
   <section>
-    <h2>6. 기록 카드와 내 사진 배경</h2>
+    <h2>7. 기록 카드와 내 사진 배경</h2>
     <p>기록 카드는 이용자가 공유하거나 갤러리에 저장할 때만 기기 밖으로 나갑니다. 카드에는 앱별 사용 내역이 들어가지 않습니다.</p>
     <p>카드 배경으로 고른 내 사진은 안드로이드 사진 선택기로 이용자가 고른 1장만 읽으며(저장소 권한 없음), 다음에 다시 쓸 수 있도록 앱 안에만 복사해 둡니다. 서버로 보내지 않고, 새 사진을 고르면 바뀌며, 앱을 삭제하면 함께 지워집니다.</p>
   </section>
   <section>
-    <h2>7. 보관 기간과 내 데이터 삭제</h2>
+    <h2>8. 보관 기간과 내 데이터 삭제</h2>
     <ul>
       <li>기기 안의 정보: 이용자가 지우거나 앱을 삭제할 때까지 기기에만 보관합니다.</li>
       <li>Firebase의 링크 정보: 이용자가 앱 메뉴의 "내 데이터 삭제"를 쓰거나 아래 문의처로 삭제를 요청할 때까지 보관합니다. 요청을 받으면 지체 없이(늦어도 30일 안에) 지웁니다.</li>
+      <li>사용 통계: 최대 14개월 보관 후 자동 삭제 (위 6)</li>
       <li>광고 관련 정보: Google의 보관 정책을 따릅니다.</li>
       <li>앱 메뉴의 <b>"내 데이터 삭제"</b>를 누르면 확인 후 기기 안의 기록·설정·링크·사진과 Firebase에 있는 내 링크 정보를 한 번에 지웁니다.</li>
     </ul>
   </section>
   <section id="gdpr">
-    <h2>8. 유럽경제지역(EEA)·영국·스위스 이용자 안내 (GDPR)</h2>
+    <h2>9. 유럽경제지역(EEA)·영국·스위스 이용자 안내 (GDPR)</h2>
     <p><b>개인정보처리자</b>: 앱 개발자 (문의: befly020621@gmail.com)</p>
     <p><b>처리 근거</b></p>
     <ul>
       <li>친구 해제 코드(Firebase 링크 정보): 이용자가 요청한 기능을 제공하기 위한 계약 이행(GDPR 제6조 1항 b). 친구 브라우저의 익명 식별값은 링크가 처음 연 기기에서만 보이게 하는 정당한 이익(제6조 1항 f).</li>
-      <li>맞춤 광고: 이용자의 동의(제6조 1항 a). 동의하지 않아도 앱의 모든 기능을 쓸 수 있습니다.</li>
+      <li>맞춤 광고와 사용 통계(Firebase 애널리틱스): 이용자의 동의(제6조 1항 a). 동의하지 않아도 앱의 모든 기능을 쓸 수 있습니다.</li>
       <li>비맞춤 광고, 광고 사기 방지·보안: 정당한 이익(제6조 1항 f).</li>
       <li>기기 안에서만 처리하는 정보(위 2)는 개발자에게 전송되지 않습니다.</li>
     </ul>
     <p><b>수집 항목과 목적</b></p>
     <ul>
       <li>Firebase: 링크 지문, 익명 계정 식별값, 링크 등록·처음 연 시각, 무효 여부, 코드 사용 날짜 — 친구 해제 코드 기능 제공</li>
+      <li>Firebase 애널리틱스: 앱 인스턴스 ID, 기기·앱 정보, 대략적인 국가·지역, 앱 사용 이벤트 — 사용 통계로 앱 개선 (위 6)</li>
       <li>Google AdMob: 광고 ID 등 기기 식별값, 대략적인 위치(IP 기반), 앱 상호작용·진단 정보 — 광고 표시, 광고 성과 측정, 사기 방지</li>
     </ul>
     <p><b>국외 이전</b></p>
     <ul>
       <li>Firebase 링크 정보는 대한민국 서울(asia-northeast3)의 Google Cloud에 저장됩니다. 대한민국은 유럽연합 집행위원회의 적정성 결정을 받은 국가입니다.</li>
-      <li>Firebase 인증과 Google AdMob은 미국 등 Google의 전 세계 시설에서 처리될 수 있으며, Google은 EU-미국 데이터 프라이버시 프레임워크와 표준계약조항(SCC)에 따라 정보를 보호합니다.</li>
+      <li>Firebase 인증, Firebase 애널리틱스, Google AdMob은 미국 등 Google의 전 세계 시설에서 처리될 수 있으며, Google은 EU-미국 데이터 프라이버시 프레임워크와 표준계약조항(SCC)에 따라 정보를 보호합니다.</li>
     </ul>
-    <p><b>이용자의 권리</b>: 열람, 정정, 삭제, 처리 제한, 처리에 대한 이의 제기, 데이터 이동을 요청할 수 있고, 동의는 언제든 철회할 수 있습니다(광고 동의는 앱 메뉴의 "광고 개인정보 설정"). 삭제는 앱 메뉴의 "내 데이터 삭제"로 바로 할 수 있고, 그 밖의 요청은 befly020621@gmail.com으로 보내 주세요. 거주 국가의 개인정보 감독기관에 민원을 제기할 수도 있습니다.</p>
+    <p><b>이용자의 권리</b>: 열람, 정정, 삭제, 처리 제한, 처리에 대한 이의 제기, 데이터 이동을 요청할 수 있고, 동의는 언제든 철회할 수 있습니다(광고·사용 통계 동의는 앱 메뉴의 "광고 개인정보 설정"). 삭제는 앱 메뉴의 "내 데이터 삭제"로 바로 할 수 있고, 그 밖의 요청은 befly020621@gmail.com으로 보내 주세요. 거주 국가의 개인정보 감독기관에 민원을 제기할 수도 있습니다.</p>
     <p><b>아동</b>: 앱은 만 13세 미만 아동을 대상으로 하지 않습니다.</p>
   </section>
   <section>
-    <h2>9. 문의</h2>
+    <h2>10. 문의</h2>
     <p>개인정보에 관한 문의: <a href="mailto:befly020621@gmail.com">befly020621@gmail.com</a></p>
   </section>
   <section>
@@ -448,7 +460,7 @@
   <p class="sub">Effective October 11, 2026</p>
   <section>
     <h2>1. Basic principles</h2>
-    <p>PhoneComma (the "App") has no sign-up. Your detox history and settings are stored only on your device. Only the friend unlock code uses Google Firebase, so that the number is shown only on the device that first opened the link (see sections 3 and 4).</p>
+    <p>PhoneComma (the "App") has no sign-up. Your detox history and settings are stored only on your device. We use Google Firebase for the friend unlock code (sections 3 and 4) and to collect usage statistics that don't identify you (section 6).</p>
   </section>
   <section>
     <h2>2. Information processed only on your device</h2>
@@ -458,7 +470,7 @@
       <li>Screen-on time (daily and hourly totals), calculated with Usage access. Per-app usage is never stored or sent anywhere.</li>
       <li>Friend unlock code: your friend's phone number if you sent the link by text (not stored if you shared it through another app), the date you sent it, a random secret key, your name (optional) and a random device value. Your friend's name is not stored, and when you pick from contacts, only the one number you choose is read. You can have only one link, and old links that no longer work are deleted automatically.</li>
       <li>For Favorites only mode, a check of whether you have starred contacts (contact details are not read or stored)</li>
-      <li>The photo you choose as a card background (see section 6)</li>
+      <li>The photo you choose as a card background (see section 7)</li>
     </ul>
     <p>This information is removed when you uninstall the App or use "Delete my data".</p>
   </section>
@@ -483,45 +495,57 @@
     <p>The App shows Google AdMob ads. To serve ads, Google may collect and use device information such as your advertising ID; see <a href="https://policies.google.com/technologies/ads">Google's advertising policies</a> for details. You can reset your advertising ID or opt out of personalized ads in your device settings.</p>
     <p>Users in the European Economic Area, the UK and Switzerland are asked for consent to personalized ads through Google's consent message (UMP) before any ads are shown, and can change or withdraw consent anytime under "Ad privacy settings" in the App menu.</p>
   </section>
+  <section id="analytics-en">
+    <h2>6. Usage statistics (Google Firebase Analytics)</h2>
+    <p>To improve the App, we collect usage statistics with Google's Firebase Analytics. We never send information that identifies you, such as your name, phone number, email, contacts, photos, per-app usage or unlock code numbers.</p>
+    <ul>
+      <li><b>What we collect</b>: an app instance ID (a random value created for each installation), device model, Android version, app version and language, approximate country and region (estimated from your IP address; the IP address itself is not stored), app usage events (app opens, permissions set up, lock start and completion with type, stage and minutes, scheduled lock runs, free pass use, friend link sent and how, unlock with code, share card shared and its type, rewarded ad completed, language changed), and automatically collected events such as first open and sessions.</li>
+      <li><b>Why</b>: to understand how much each feature is used, how often people come back, and where people get stuck in the first steps (permissions → first lock), so we can improve the App. It is not used to personalize ads or sold to anyone.</li>
+      <li><b>Retention</b>: kept for Google Analytics' event data retention period (up to 14 months) and then deleted automatically. Reports keep only aggregated totals that can't identify you.</li>
+      <li><b>Your choice</b>: in the EEA, UK and Switzerland we collect only with your consent (nothing is collected before you consent), and you can change it together with ad consent under "Ad privacy settings" in the menu. "Delete my data" also resets the analytics ID on this device.</li>
+    </ul>
+  </section>
   <section>
-    <h2>6. Share cards and your own photo background</h2>
+    <h2>7. Share cards and your own photo background</h2>
     <p>Cards leave your device only when you share them or save them to your gallery. Cards never include per-app usage.</p>
     <p>For a photo background, the App reads only the one photo you pick with the Android photo picker (no storage permission), and keeps a copy inside the App so you can reuse it. It is never uploaded, is replaced when you pick a new photo, and is deleted when you uninstall the App or use "Delete my data".</p>
   </section>
   <section>
-    <h2>7. Retention and deleting your data</h2>
+    <h2>8. Retention and deleting your data</h2>
     <ul>
       <li>Information on your device: kept on your device until you delete it or uninstall the App.</li>
       <li>Link information in Firebase: kept until you use "Delete my data" in the App or ask us to delete it. We delete it without undue delay, and within 30 days at the latest.</li>
+      <li>Usage statistics: kept for up to 14 months, then deleted automatically (section 6).</li>
       <li>Ad-related information: retained according to Google's policies.</li>
       <li>Tapping <b>"Delete my data"</b> in the App menu deletes, after confirmation, your history, settings, link and photo on your device together with your link information in Firebase.</li>
     </ul>
   </section>
   <section id="gdpr-en">
-    <h2>8. Users in the EEA, UK and Switzerland (GDPR)</h2>
+    <h2>9. Users in the EEA, UK and Switzerland (GDPR)</h2>
     <p><b>Controller</b>: the App's developer (contact: befly020621@gmail.com)</p>
     <p><b>Legal bases</b></p>
     <ul>
       <li>Friend unlock code (link information in Firebase): performance of a contract, to provide the feature you request (Art. 6(1)(b) GDPR). The anonymous ID of your friend's browser is processed on the basis of our legitimate interest in showing the number only on the first device (Art. 6(1)(f)).</li>
-      <li>Personalized ads: your consent (Art. 6(1)(a)). You can use every feature of the App without consenting.</li>
+      <li>Personalized ads and usage statistics (Firebase Analytics): your consent (Art. 6(1)(a)). You can use every feature of the App without consenting.</li>
       <li>Non-personalized ads and ad fraud prevention and security: legitimate interests (Art. 6(1)(f)).</li>
       <li>Information processed only on your device (section 2) is never sent to the developer.</li>
     </ul>
     <p><b>What we collect and why</b></p>
     <ul>
       <li>Firebase: link fingerprint, anonymous account IDs, registration and first-open times, validity status and the date a code was used — to provide the friend unlock code.</li>
+      <li>Firebase Analytics: app instance ID, device and app information, approximate country and region, app usage events — usage statistics to improve the App (section 6).</li>
       <li>Google AdMob: device identifiers such as the advertising ID, approximate location (based on IP address), app interactions and diagnostics — to show ads, measure ad performance and prevent fraud.</li>
     </ul>
     <p><b>International transfers</b></p>
     <ul>
       <li>Firebase link information is stored on Google Cloud in Seoul, Republic of Korea (asia-northeast3). The Republic of Korea is covered by an adequacy decision of the European Commission.</li>
-      <li>Firebase Authentication and Google AdMob may process data at Google facilities worldwide, including the United States. Google protects such transfers under the EU-U.S. Data Privacy Framework and Standard Contractual Clauses.</li>
+      <li>Firebase Authentication, Firebase Analytics and Google AdMob may process data at Google facilities worldwide, including the United States. Google protects such transfers under the EU-U.S. Data Privacy Framework and Standard Contractual Clauses.</li>
     </ul>
-    <p><b>Your rights</b>: you have the right to access, rectify and erase your data, to restrict processing, to object to processing and to data portability, and you can withdraw consent at any time (for ads, via "Ad privacy settings" in the App menu). You can delete your data right away with "Delete my data" in the App menu; for other requests, email befly020621@gmail.com. You also have the right to lodge a complaint with your local data protection authority.</p>
+    <p><b>Your rights</b>: you have the right to access, rectify and erase your data, to restrict processing, to object to processing and to data portability, and you can withdraw consent at any time (for ads and usage statistics, via "Ad privacy settings" in the App menu). You can delete your data right away with "Delete my data" in the App menu; for other requests, email befly020621@gmail.com. You also have the right to lodge a complaint with your local data protection authority.</p>
     <p><b>Children</b>: the App is not directed at children under 13.</p>
   </section>
   <section>
-    <h2>9. Contact</h2>
+    <h2>10. Contact</h2>
     <p>Privacy questions: <a href="mailto:befly020621@gmail.com">befly020621@gmail.com</a></p>
   </section>
   <section>
