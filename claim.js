@@ -65,45 +65,78 @@ async function readDoc(fs, db, ref) {
   }
 }
 
-async function doClaim(secret, retry = true) {
-  const { fs, db, uid } = await init();
-  const ref = fs.doc(db, 'links', await linkId(secret));
-  const snap = await readDoc(fs, db, ref);
-  if (typeof snap === 'string') return { state: snap };
-  const d = snap.exists() ? snap.data() : {};
+// 친구가 열지 않은 채 만료됐는지: 서버 문서의 expireAt, 문서가 없으면(만료돼 지워졌거나 등록 전) 링크의 e= 값
+function isExpired(d, exists, expireMs) {
+  const at = d.expireAt && typeof d.expireAt.toMillis === 'function' ? d.expireAt.toMillis() : 0;
+  if (at) return Date.now() >= at;
+  return !exists && expireMs > 0 && Date.now() >= expireMs;
+}
+
+// 서버 문서를 보고 상태를 정한다. 등록이 필요하면 null
+function stateOf(d, exists, uid, expireMs) {
   const usedDate = typeof d.usedDate === 'string' ? d.usedDate : '';
-  // 보낸 사람이 새 링크로 바꿨거나 친구 목록에서 지운 링크
+  // 보낸 사람이 새 링크로 바꿨거나 지운 링크
   if (d.revoked === true) return { state: 'revoked' };
   const opener = d.opener || d.uid || null;
   if (opener === uid) return { state: 'mine', usedDate };
   if (opener) return { state: 'other' };
+  // 아무도 열지 않은 채 24시간이 지난 링크
+  if (isExpired(d, exists, expireMs)) return { state: 'expired' };
+  return null;
+}
+
+async function doClaim(secret, expireMs) {
+  const { fs, db, uid } = await init();
+  const ref = fs.doc(db, 'links', await linkId(secret));
+  const snap = await readDoc(fs, db, ref);
+  if (typeof snap === 'string') return { state: snap };
+  const known = stateOf(snap.exists() ? snap.data() : {}, snap.exists(), uid, expireMs);
+  if (known) return known;
+  // 처음 열기(친구 등록): 트랜잭션으로 "아직 아무도 안 열었는지" 다시 보고 opener 를 적는다.
+  // 만료 시각(expireAt)은 같은 쓰기에서 지운다 → 이제 친구가 열쇠를 가졌으니 만료되지 않는다.
   try {
-    if (snap.exists()) {
-      // 앱이 등록만 해 둔 링크: 처음 연 브라우저로 기록 (다른 기기가 먼저 기록했으면 거부됨)
-      await fs.updateDoc(ref, { opener: uid, openedAt: fs.serverTimestamp() });
-    } else {
-      // 앱이 아직 등록하지 않은 링크 (예전에 보낸 링크 등)
-      await fs.setDoc(ref, { opener: uid, openedAt: fs.serverTimestamp() });
-    }
+    const result = await fs.runTransaction(db, async (tx) => {
+      const cur = await tx.get(ref);
+      const d = cur.exists() ? cur.data() : {};
+      const s = stateOf(d, cur.exists(), uid, expireMs);
+      if (s) return s;
+      if (cur.exists()) {
+        const open = { opener: uid, openedAt: fs.serverTimestamp() };
+        if ('expireAt' in d) open.expireAt = fs.deleteField();
+        tx.update(ref, open);
+      } else {
+        // 앱이 아직 등록하지 않은 링크 (예전에 보낸 링크, 앱이 오프라인 등)
+        tx.set(ref, { opener: uid, openedAt: fs.serverTimestamp() });
+      }
+      return { state: 'mine', usedDate: typeof d.usedDate === 'string' ? d.usedDate : '' };
+    });
+    return result;
   } catch (e) {
-    // 그사이 다른 기기가 열었거나 앱이 등록했으면 한 번 더 확인한다
-    if (e && e.code === 'permission-denied' && retry) return doClaim(secret, false);
-    if (e && e.code === 'permission-denied') return { state: 'other' };
+    if (e && e.code === 'permission-denied') {
+      // 그사이 다른 기기가 열었거나 만료·무효가 됐는지 한 번 더 보고, 아니면 "확인하지 못함"
+      const again = await readDoc(fs, db, ref);
+      if (typeof again === 'string') return { state: again };
+      const s = stateOf(again.exists() ? again.data() : {}, again.exists(), uid, expireMs);
+      if (s) return s;
+      if (typeof console !== 'undefined') console.warn('claim write denied', e);
+      return { state: 'failed' };
+    }
     throw e;
   }
-  return { state: 'mine', usedDate };
 }
 
 /**
  * 이 브라우저가 이 링크의 주인인지 확인하고, 아무도 열지 않았으면 이 브라우저로 정한다.
  * 결과 { state, usedDate }:
  *   state = 'mine'(이 기기) | 'other'(다른 기기가 먼저 엶) | 'revoked'(더 이상 쓸 수 없는 링크)
+ *         | 'expired'(아무도 열지 않은 채 24시간이 지난 링크)
+ *         | 'failed'(등록 쓰기가 거절됨 — 숫자를 보여 주지 않는다)
  *         | 'setup'(Firebase 설정 문제) | 'offline'
  *   usedDate = 보낸 사람이 코드로 해제한 한국 날짜 ("" 이면 없음)
  */
-export async function claim(secret) {
+export async function claim(secret, expireMs = 0) {
   try {
-    return await withTimeout(doClaim(secret));
+    return await withTimeout(doClaim(secret, expireMs));
   } catch (e) {
     const code = (e && e.code) || '';
     if (SETUP_ERRORS.some((c) => code.startsWith(c))) return { state: 'setup' };

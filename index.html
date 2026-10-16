@@ -11,90 +11,97 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
   :root {
-    --bg: #F4FAF7; --card: #FFFFFF; --text: #1B3B33; --sub: #5B746C;
-    --green: #2E7D6B; --green-soft: #E3F2EC; --line: #DCE9E3; --warn: #8A5A00; --warn-bg: #FFF4DC;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0F1F1B; --card: #17302A; --text: #ECF5F1; --sub: #A9C2BA;
-      --green: #7FCBB5; --green-soft: #1F3D35; --line: #29453D; --warn: #FFD27A; --warn-bg: #3A2E14;
-    }
+    --bg: #102520; --card: #18322B; --text: #E6EDE3; --sub: #A3B8B0; --mint: #9FE1CB;
+    --line: #23413A; --warn: #FFD27A; --warn-bg: #3A2E14; --pill: #7FCDB5; --pill-text: #10302A;
   }
   * { box-sizing: border-box; }
+  html, body { height: 100%; }
   body {
     margin: 0; background: var(--bg); color: var(--text);
     font-family: -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
     line-height: 1.55; -webkit-text-size-adjust: 100%;
   }
-  main { max-width: 440px; margin: 0 auto; padding: 24px 16px calc(32px + env(safe-area-inset-bottom)); }
-  h1 { font-size: 20px; margin: 4px 0 16px; display: flex; align-items: center; gap: 8px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 20px; margin-bottom: 14px; }
-  .banner { background: var(--green-soft); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; font-weight: 600; }
-  .error { background: var(--warn-bg); color: var(--warn); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; white-space: pre-line; }
-  .label { color: var(--sub); font-size: 14px; text-align: center; }
+  main {
+    max-width: 440px; margin: 0 auto; min-height: 100vh; min-height: 100dvh;
+    padding: 18px 20px calc(16px + env(safe-area-inset-bottom)); display: flex; flex-direction: column;
+  }
+  .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .brand { display: flex; align-items: center; gap: 6px; color: var(--sub); font-size: 14px; }
+  .brand img { width: 18px; height: 18px; }
+  .langs { display: inline-flex; background: var(--card); border-radius: 999px; padding: 3px; }
+  .langs button { border: 0; background: transparent; color: var(--sub); font: inherit; font-size: 12px;
+    padding: 4px 10px; border-radius: 999px; cursor: pointer; }
+  .langs button[aria-pressed="true"] { background: #24453C; color: var(--text); font-weight: 700; }
+  h1 { font-size: 24px; font-weight: 800; margin: 0 0 16px; }
+  .banner { background: #1F4A3E; border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; }
+  .banner b { color: var(--mint); font-size: 14px; display: block; }
+  .banner span { color: var(--sub); font-size: 12.5px; }
+  .info { background: var(--card); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; color: var(--sub); font-size: 13px; }
+  .error { background: var(--warn-bg); color: var(--warn); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; white-space: pre-line; font-size: 14px; }
+  .card { background: var(--card); border-radius: 20px; padding: 26px 16px 22px; margin-bottom: 22px; text-align: center; }
+  .label { color: var(--sub); font-size: 14px; }
   .code {
-    font-size: 56px; font-weight: 800; letter-spacing: 6px; text-align: center; color: var(--green);
-    font-variant-numeric: tabular-nums; margin: 6px 0 2px; user-select: all;
+    font-size: 58px; font-weight: 800; letter-spacing: 4px; color: var(--mint); line-height: 1.25;
+    font-variant-numeric: tabular-nums; margin: 10px 0 8px; user-select: all; white-space: nowrap;
   }
-  .meta { color: var(--sub); font-size: 13px; text-align: center; }
-  .code.used { font-size: 30px; letter-spacing: 0; margin: 16px 0 10px; user-select: none; }
-  .note { font-size: 15px; margin: 0 0 10px; }
-  .note:last-child { margin-bottom: 0; }
-  .small { color: var(--sub); font-size: 13px; }
-  button, .btn {
-    display: block; width: 100%; border: 0; border-radius: 14px; padding: 14px; font-size: 16px; font-weight: 700;
-    background: var(--green); color: #fff; text-align: center; text-decoration: none; cursor: pointer;
-  }
-  @media (prefers-color-scheme: dark) { button, .btn { color: #0F1F1B; } }
-  .btn-outline { background: transparent; color: var(--green); border: 1.5px solid var(--green); }
-  .howto { display: none; margin-top: 10px; font-size: 14px; }
+  .code.used { font-size: 30px; letter-spacing: 0; margin: 14px 0 10px; user-select: none; }
+  .meta { color: var(--sub); font-size: 13px; }
+  .notes h2 { font-size: 15px; margin: 0 0 8px; }
+  .notes ul { margin: 0; padding-left: 18px; color: var(--sub); font-size: 14px; }
+  .notes li { margin-bottom: 4px; }
+  .notes li::marker { color: var(--mint); }
+  .try { display: inline-block; margin-top: 18px; color: var(--sub); font-size: 13px; }
+  .install { margin-top: auto; padding-top: 18px; }
+  .install .row { border-top: 1px solid var(--line); padding-top: 16px; display: flex; align-items: center; gap: 12px; }
+  .install .txt { flex: 1; }
+  .install .txt b { font-size: 13px; font-weight: 600; display: block; }
+  .install .txt span { color: var(--sub); font-size: 11.5px; display: block; line-height: 1.5; word-break: keep-all; }
+  .install button { height: 40px; border: 0; border-radius: 20px; padding: 0 14px; background: var(--pill); color: var(--pill-text);
+    font: inherit; font-size: 14px; font-weight: 700; white-space: nowrap; cursor: pointer; }
+  .howto { display: none; margin-top: 10px; font-size: 13px; color: var(--sub); }
   .howto.open { display: block; }
-  .howto li { margin-bottom: 4px; }
-  footer { text-align: center; margin-top: 22px; }
-  footer a { color: var(--sub); font-size: 14px; }
+  .howto ul { padding-left: 18px; margin: 6px 0 0; }
+  .howto b { color: var(--text); }
   .hidden { display: none !important; }
-  .langs { display: flex; gap: 6px; justify-content: flex-end; margin-bottom: 4px; }
-  .langs button { width: auto; display: inline-block; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 999px;
-    border: 1.5px solid var(--line); background: var(--card); color: var(--text); }
-  .langs button[aria-pressed="true"] { border-color: var(--green); color: var(--green); font-weight: 700; }
+  @media (display-mode: standalone) { .install { display: none !important; } }
 </style>
 </head>
 <body>
 <main>
-  <div class="langs" role="group" aria-label="Language">
-    <button type="button" data-set-lang="ko">한국어</button>
-    <button type="button" data-set-lang="en">English</button>
+  <div class="top">
+    <div class="brand"><img src="icon.svg" alt=""><span data-i18n="brand">폰쉼표</span></div>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-set-lang="ko">한국어</button>
+      <button type="button" data-set-lang="en">English</button>
+    </div>
   </div>
-  <h1 id="title">🔑 친구의 해제 코드</h1>
+  <h1 id="title">친구의 해제 코드</h1>
 
-  <div id="firstBanner" class="banner hidden">
-    <span data-i18n="firstOpen">이제 이 링크는 이 기기에서만 숫자가 보여요 🔒<br>친구에게 '열었어'라고 답장해 주세요</span>
-  </div>
+  <!-- 처음 등록에 성공한 그 순간에만 -->
+  <div id="firstBanner" class="banner hidden"><b data-i18n="firstTitle">✓ 열쇠를 받았어요</b><span id="firstSub"></span></div>
   <div id="error" class="error hidden"></div>
-  <div id="checking" class="banner hidden" data-i18n="checking">이 기기에서 처음 연 링크인지 확인하고 있어요…</div>
+  <div id="checking" class="info hidden" data-i18n="checking">이 기기에서 처음 연 링크인지 확인하고 있어요…</div>
 
   <div id="codes"></div>
 
-  <div id="notes" class="card hidden">
-    <p class="note" data-i18n="note1">친구가 전화로 급하다고 하면 이유를 듣고 알려 주세요. 이 숫자는 하루 1번만 쓸 수 있으니 꼭 필요할 때만 알려 주세요. 숫자는 매일 바뀌어요.</p>
-    <p class="note small" data-i18n="note2">이 링크는 처음 연 이 폰, 이 브라우저에서만 숫자가 보여요. 다른 폰이나 다른 브라우저에서 열면 보이지 않고, 인터넷 기록(사이트 데이터)을 지우면 이 브라우저에서도 다시 볼 수 없어요.</p>
+  <div id="notes" class="notes hidden">
+    <h2 id="notesTitle"></h2>
+    <ul>
+      <li data-i18n="tip1">이유를 먼저 들어 주세요</li>
+      <li data-i18n="tip2">꼭 필요할 때만 숫자를 알려 주세요</li>
+      <li data-i18n="tip3">하루 1번만 쓸 수 있어요</li>
+    </ul>
+    <a id="tryLink" class="try hidden" href="#" rel="noopener" data-i18n="try">🌿 나도 해보기</a>
   </div>
 
-  <div id="installCard" class="card hidden">
-    <button id="installBtn" type="button" data-i18n="install">홈 화면에 추가</button>
-    <div id="howto" class="howto" data-i18n="howto">
-      다음에 쉽게 찾으려면 이 페이지를 홈 화면에 추가해 두세요.
-      <ul>
-        <li><b>크롬</b>: 오른쪽 위 ⋮ → <b>홈 화면에 추가</b></li>
-        <li><b>삼성 인터넷</b>: 아래 ≡ → <b>현재 페이지 추가</b> → <b>홈 화면</b></li>
-        <li><b>아이폰 사파리</b>: 공유 버튼 → <b>홈 화면에 추가</b></li>
-      </ul>
+  <!-- 맨 아래: 다음에 바로 열려면 + 홈 화면에 추가 (홈 화면 앱으로 열었으면 숨김) -->
+  <div id="installCard" class="install hidden">
+    <div class="row">
+      <div class="txt"><b data-i18n="installTitle">다음에 바로 열려면</b><span data-i18n="installSub">이 폰·이 브라우저에서만 보여요.<br>인터넷 기록을 지우면 다시 볼 수 없어요.</span></div>
+      <button id="installBtn" type="button" data-i18n="install">홈 화면에 추가</button>
     </div>
+    <div id="howto" class="howto" data-i18n="howto"></div>
   </div>
-
-  <footer id="tryFooter" class="hidden">
-    <a id="tryLink" class="btn btn-outline" href="#" rel="noopener" data-i18n="try">🌿 나도 해보기</a>
-  </footer>
 </main>
 
 <script src="config.js"></script>
@@ -109,51 +116,67 @@ const LANG_KEY = 'detox_lang';
 const T = {
   ko: {
     pageTitle: '디지털 디톡스 · 해제 코드',
-    titleNamed: (n) => `🔑 ${n}님의 해제 코드`,
-    titleDefault: '🔑 친구의 해제 코드',
+    brand: '폰쉼표',
+    titleNamed: (n) => `${n}님의 해제 코드`,
+    titleDefault: '친구의 해제 코드',
+    firstTitle: '✓ 열쇠를 받았어요',
+    firstSub: (n) => `${n ? n + '님' : '친구'} 앱에 자동으로 표시돼요. 따로 답장 안 해도 돼요.`,
+    notesTitle: (n) => `${n ? n + '님이' : '친구가'} 전화로 급하다고 하면`,
+    tip1: '이유를 먼저 들어 주세요',
+    tip2: '꼭 필요할 때만 숫자를 알려 주세요',
+    tip3: '하루 1번만 쓸 수 있어요',
+    installTitle: '다음에 바로 열려면',
+    installSub: '이 폰·이 브라우저에서만 보여요.<br>인터넷 기록을 지우면 다시 볼 수 없어요.',
     whose: (n) => (n ? `${n}님의 ` : ''),
-    firstOpen: "이제 이 링크는 이 기기에서만 숫자가 보여요 🔒<br>친구에게 '열었어'라고 답장해 주세요",
     checking: '이 기기에서 처음 연 링크인지 확인하고 있어요…',
-    note1: '친구가 전화로 급하다고 하면 이유를 듣고 알려 주세요. 이 숫자는 하루 1번만 쓸 수 있으니 꼭 필요할 때만 알려 주세요. 숫자는 매일 바뀌어요.',
-    note2: '이 링크는 처음 연 이 폰, 이 브라우저에서만 숫자가 보여요. 다른 폰이나 다른 브라우저에서 열면 보이지 않고, 인터넷 기록(사이트 데이터)을 지우면 이 브라우저에서도 다시 볼 수 없어요.',
     install: '홈 화면에 추가',
-    howto: '다음에 쉽게 찾으려면 이 페이지를 홈 화면에 추가해 두세요.<ul><li><b>크롬</b>: 오른쪽 위 ⋮ → <b>홈 화면에 추가</b></li><li><b>삼성 인터넷</b>: 아래 ≡ → <b>현재 페이지 추가</b> → <b>홈 화면</b></li><li><b>아이폰 사파리</b>: 공유 버튼 → <b>홈 화면에 추가</b></li></ul>',
+    howto: '브라우저 메뉴에서 홈 화면에 추가할 수 있어요.<ul><li><b>크롬</b>: 오른쪽 위 ⋮ → <b>홈 화면에 추가</b></li><li><b>삼성 인터넷</b>: 아래 ≡ → <b>현재 페이지 추가</b> → <b>홈 화면</b></li><li><b>아이폰 사파리</b>: 공유 버튼 → <b>홈 화면에 추가</b></li></ul>',
     try: '🌿 나도 해보기',
-    todayLabel: '오늘의 해제 숫자',
+    todayLabel: '오늘의 숫자',
     usedToday: '오늘은 사용함',
     newTomorrow: '내일 새 숫자',
-    left: (h, m) => `${h}시간 ${m}분 뒤 새 숫자`,
+    left: (h, m) => (h > 0 ? `${h}시간 ${m}분 뒤 새 숫자로 바뀌어요` : `${m}분 뒤 새 숫자로 바뀌어요`),
     badLink: '링크가 올바르지 않아요. 친구에게 링크를 다시 보내 달라고 해 주세요.',
     noStorage: '이 브라우저에 저장할 수 없어요. 비공개(시크릿) 모드라면 일반 모드로 다시 열어 주세요.',
     nothingSaved: '이 브라우저에는 저장된 해제 숫자가 없어요. 친구가 보낸 링크를 이 폰에서 처음 연 브라우저로 다시 열어 주세요.',
-    revoked: (n) => `${n ? n + '님의 ' : ''}예전 링크는 더 이상 쓸 수 없어요. 친구가 새 링크를 보냈다면 새 링크로 열어 주세요.`,
+    revoked: (n) => `이 링크는 더 이상 쓸 수 없어요\n${n ? n + '님' : '친구'}에게 새 링크를 받아 주세요`,
     other: (n) => `이미 다른 기기에서 열린 ${n ? n + '님의 ' : ''}링크예요. 이 링크의 숫자는 처음 연 기기에서만 보여요. 필요하면 친구에게 새 링크를 보내 달라고 해 주세요.`,
     needNet: '처음 한 번은 인터넷 연결이 필요해요. 연결을 확인한 뒤 이 페이지를 다시 열어 주세요.',
     needSetup: '지금은 링크를 확인할 수 없어요. 잠시 뒤 이 페이지를 다시 열어 주세요.',
+    expired: (n) => `이 링크는 만료됐어요\n${n ? n + '님' : '친구'}에게 새 링크를 받아 주세요`,
+    checkFailed: '링크를 확인하지 못했어요. 잠시 후 다시 열어 주세요',
   },
   en: {
     pageTitle: 'PhoneComma · Unlock code',
-    titleNamed: (n) => `🔑 ${n}'s unlock code`,
-    titleDefault: "🔑 Your friend's unlock code",
+    brand: 'PhoneComma',
+    titleNamed: (n) => `${n}'s unlock code`,
+    titleDefault: "Your friend's unlock code",
+    firstTitle: '✓ You got the key',
+    firstSub: (n) => `It shows up in ${n ? n + "'s" : 'your friend\'s'} app automatically. No need to reply.`,
+    notesTitle: (n) => `If ${n || 'your friend'} calls saying it's urgent`,
+    tip1: 'Hear them out first',
+    tip2: 'Share the number only when it\'s really needed',
+    tip3: 'It works only once a day',
+    installTitle: 'To open it quickly next time',
+    installSub: 'It shows only on this phone, in this browser.<br>Clearing browsing data removes it for good.',
     whose: (n) => (n ? `${n}'s ` : ''),
-    firstOpen: "This link now shows the number on this device only 🔒<br>Let your friend know you've opened it",
     checking: 'Checking whether this is the first device to open the link…',
-    note1: 'If your friend calls saying it\'s urgent, hear them out first. The code works only once a day, so share it only when it\'s really needed. It changes every day.',
-    note2: 'This link shows the number only on this phone, in this browser, where it was first opened. It won\'t show on other phones or browsers, and if you clear this browser\'s site data you won\'t be able to see it here again.',
     install: 'Add to home screen',
-    howto: 'Add this page to your home screen so it\'s easy to find later.<ul><li><b>Chrome</b>: ⋮ (top right) → <b>Add to home screen</b></li><li><b>Samsung Internet</b>: ≡ (bottom) → <b>Add page to</b> → <b>Home screen</b></li><li><b>iPhone Safari</b>: Share → <b>Add to Home Screen</b></li></ul>',
+    howto: 'You can add it from your browser menu.<ul><li><b>Chrome</b>: ⋮ (top right) → <b>Add to home screen</b></li><li><b>Samsung Internet</b>: ≡ (bottom) → <b>Add page to</b> → <b>Home screen</b></li><li><b>iPhone Safari</b>: Share → <b>Add to Home Screen</b></li></ul>',
     try: '🌿 Try PhoneComma',
-    todayLabel: "Today's unlock code",
+    todayLabel: "Today's number",
     usedToday: 'Used today',
     newTomorrow: 'New code tomorrow',
-    left: (h, m) => `New code in ${h}h ${m}m`,
+    left: (h, m) => (h > 0 ? `New number in ${h}h ${m}m` : `New number in ${m}m`),
     badLink: "This link isn't valid. Please ask your friend to send it again.",
     noStorage: "This browser can't save the code. If you're in private (incognito) mode, open the link again in a normal window.",
     nothingSaved: "No unlock code is saved in this browser. Open your friend's link again in the browser on this phone where you first opened it.",
-    revoked: (n) => `${n ? n + "'s" : 'This'} old link is no longer valid. If your friend sent a new link, please open that one.`,
+    revoked: (n) => `This link can no longer be used\nPlease ask ${n || 'your friend'} for a new link`,
     other: (n) => `${n ? n + "'s" : 'This'} link was already opened on another device. The code only shows on the device that opened it first. If needed, ask your friend to send a new link.`,
     needNet: 'You need an internet connection the first time. Check your connection and open this page again.',
     needSetup: "We can't check the link right now. Please open this page again in a little while.",
+    expired: (n) => `This link has expired\nPlease ask ${n || 'your friend'} for a new link`,
+    checkFailed: "We couldn't check this link. Please open it again in a little while",
   },
 };
 function pickLang(linkLang) {
@@ -200,6 +223,8 @@ const params = new URLSearchParams(location.hash.slice(1));
 const linkKey = params.get('k');
 const owner = (params.get('o') || '').slice(0, 64);
 const ownerName = (params.get('n') || '').trim().slice(0, 30);
+// 친구가 열지 않으면 만료되는 시각(ms). 없으면(이 기능 전에 보낸 링크) 만료 없음
+const linkExpire = /^[0-9]{10,16}$/.test(params.get('e') || '') ? Number(params.get('e')) : 0;
 // 링크를 보낸 사람 기기의 시간대. 없으면(이 기능 전에 보낸 링크) 한국 시간으로 계산한다
 const linkZone = DetoxCode.validZone(params.get('z')) ? params.get('z') : '';
 // 링크를 보낸 앱의 언어 (l=ko|en). 한 번 정하면 이 브라우저에 기억한다
@@ -215,7 +240,7 @@ if (linkKey) {
   } else if (!keys.some((x) => x.k === linkKey)) {
     // 같은 사람이 새 링크를 보냈으면 예전 링크(이제 쓸 수 없는 숫자)는 지운다
     if (owner) keys = keys.filter((x) => x.o !== owner);
-    keys.push({ k: linkKey, o: owner, n: ownerName, z: linkZone, added: Date.now(), c: 0 });
+    keys.push({ k: linkKey, o: owner, n: ownerName, z: linkZone, e: linkExpire, added: Date.now(), c: 0 });
     newKey = linkKey;
     storageOk = saveKeys(keys);
     if (!storageOk) showError('noStorage');
@@ -253,14 +278,18 @@ async function render() {
     card.innerHTML = used
       ? `<div class="label">${t('todayLabel')}</div>` +
         `<div class="code used">${t('usedToday')}</div>` +
-        `<div class="meta">${t('newTomorrow')} · <span class="left"></span></div>`
+        `<div class="meta"><span class="left"></span></div>`
       : `<div class="label">${t('todayLabel')}</div>` +
         `<div class="code">${code.slice(0, 3)} ${code.slice(3)}</div>` +
-        `<div class="meta">${today.replace(/-/g, '.')} · <span class="left"></span></div>`;
+        `<div class="meta"><span class="left"></span></div>`;
     box.appendChild(card);
   }
   $('notes').classList.toggle('hidden', !key);
   $('installCard').classList.toggle('hidden', !key);
+  // 지훈님 = 링크를 보낸 사람(앱의 내 이름)
+  const who = (key && key.n) || '';
+  $('notesTitle').textContent = t('notesTitle', who);
+  $('firstSub').textContent = t('firstSub', who);
   updateTitle();
   tick();
 }
@@ -281,20 +310,27 @@ async function verify() {
   }
   // 새로 받은 링크를 확인할 때만 안내를 띄우고, 이미 보이던 링크는 조용히 확인한다
   if (keys.some((x) => x.c === 0)) $('checking').classList.remove('hidden');
-  let needsNet = false, needsSetup = false;
+  let needsNet = false, needsSetup = false, checkFailed = false;
   const drop = new Set();
   for (const key of keys) {
-    const r = await claim(key.k);
+    const r = await claim(key.k, key.c === 1 ? 0 : (key.e || 0));
     if (r.state === 'mine') {
       if (key.c === 0) $('firstBanner').classList.remove('hidden');
       key.c = 1;
       key.u = r.usedDate || '';
+    } else if (r.state === 'expired') {
+      drop.add(key);
+      showError('expired', key.n || '');
     } else if (r.state === 'revoked') {
       drop.add(key);
       showError('revoked', key.n || '');
     } else if (r.state === 'other') {
       drop.add(key);
       showError('other', key.n || '');
+    } else if (r.state === 'failed') {
+      // 친구 등록 쓰기가 거절됨: 숫자를 보여 주지 않고(확인 전 상태로 두고) 안내 — 다음에 열면 다시 시도
+      if (key.c !== 1) key.c = 0;
+      checkFailed = true;
     } else if (key.c !== 0) {
       // 이미 보이던 숫자는 확인을 못 해도 그대로 보여 준다 (다음에 다시 확인)
     } else if (r.state === 'setup') {
@@ -311,6 +347,7 @@ async function verify() {
   $('checking').classList.add('hidden');
   if (needsNet) showError('needNet');
   if (needsSetup) showError('needSetup');
+  if (checkFailed) showError('checkFailed');
   render();
 }
 
@@ -332,7 +369,7 @@ let shownDate = DetoxCode.zoneDate(zoneOf(current()));
 setInterval(() => {
   const d = DetoxCode.zoneDate(zoneOf(current()));
   if (d !== shownDate) { shownDate = d; render(); } else { tick(); }
-}, 30000);
+}, 15000);
 render();
 verify();
 
@@ -359,7 +396,7 @@ if (play) {
     if (!url.searchParams.has('referrer')) url.searchParams.set('referrer', 'utm_source=friend_code');
     if (!url.searchParams.has('utm_source')) url.searchParams.set('utm_source', 'friend_code');
     $('tryLink').href = url.toString();
-    $('tryFooter').classList.remove('hidden');
+    $('tryLink').classList.remove('hidden');
   } catch (e) { /* 잘못된 주소면 숨긴 채로 둔다 */ }
 }
 </script>
