@@ -6,6 +6,14 @@
 <meta name="theme-color" content="#2E7D6B">
 <title>이용약관 · 개인정보처리방침 · 디지털 디톡스</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
+<script>
+  // 앱 안 바텀시트로 열 때: ?embed=1 이면 머리글(앱 이름·언어 버튼)을 숨기고, ?theme=light|dark 로 앱의 테마를 따른다
+  (function () {
+    var q = new URLSearchParams(location.search), c = document.documentElement.classList;
+    if (q.get('embed') === '1') c.add('embed');
+    var t = q.get('theme'); if (t === 'light' || t === 'dark') c.add('theme-' + t);
+  })();
+</script>
 <style>
   :root { --bg: #F4FAF7; --card: #FFFFFF; --text: #1B3B33; --sub: #5B746C; --green: #2E7D6B; --line: #DCE9E3; }
   @media (prefers-color-scheme: dark) {
@@ -43,6 +51,11 @@
   .notice { font-size: 14px; color: var(--sub); background: var(--card); border: 1px dashed var(--line);
     border-radius: 12px; padding: 10px 14px; margin: 0 0 12px; }
   [hidden] { display: none !important; }
+  /* 앱 안 바텀시트 (?embed=1, ?theme=) */
+  html.embed .langs, html.embed .head { display: none !important; }
+  html.embed main { padding-top: 4px; }
+  :root.theme-light { --bg: #F4FAF7; --card: #FFFFFF; --text: #1B3B33; --sub: #5B746C; --green: #2E7D6B; --line: #DCE9E3; color-scheme: light; }
+  :root.theme-dark { --bg: #0F1F1B; --card: #17302A; --text: #ECF5F1; --sub: #A9C2BA; --green: #7FCBB5; --line: #29453D; color-scheme: dark; }
 </style>
 </head>
 <body>
@@ -52,13 +65,13 @@
     <button type="button" data-set-lang="en">English</button>
   </div>
 
-  <div data-lang="ko">
+  <div class="head" data-lang="ko">
     <h1>🌿 디지털 디톡스</h1>
-    <p class="sub">이용약관과 개인정보처리방침 · 시행일 2026년 10월 11일</p>
+    <p class="sub">이용약관과 개인정보처리방침 · 시행일 2026년 10월 25일</p>
   </div>
-  <div data-lang="en" hidden>
+  <div class="head" data-lang="en" hidden>
     <h1>🌿 PhoneComma</h1>
-    <p class="sub">Terms of Service and Privacy Policy · Effective October 11, 2026</p>
+    <p class="sub">Terms of Service and Privacy Policy · Effective October 25, 2026</p>
   </div>
 
   <nav class="tabs">
@@ -69,7 +82,7 @@
   <div data-lang="ko">
   <div id="terms" class="part">
   <h1 class="doc">이용약관</h1>
-  <p class="sub">시행일 2026년 10월 11일</p>
+  <p class="sub">시행일 2026년 10월 25일</p>
   <section>
     <h2>제1조 (목적)</h2>
     <p>이 약관은 디지털 디톡스(이하 "앱")를 이용하는 데 필요한 개발자와 이용자의 권리, 의무, 책임 사항과 그 밖에 필요한 사항을 정하는 것을 목적으로 합니다. 앱은 이용자가 스스로 정한 시간 동안 스마트폰 사용을 줄일 수 있도록 돕는 디지털 디톡스 앱입니다.</p>
@@ -105,7 +118,7 @@
       <li>잠금 중 허용 앱과 업무 앱 사용</li>
       <li>잠금 중 방해 금지 모드 연동</li>
       <li>친구 해제 코드</li>
-      <li>디톡스 기록, 화면 켜진 시간과의 비교, 그래프, 나무 성장, 기록 카드 만들기와 공유</li>
+      <li>디톡스 기록, 화면 켜진 시간과의 비교, 그래프, 유리병 정원 키우기(테마 6가지), 연속 기록 축하, 기록 카드 만들기와 공유</li>
     </ul>
   </section>
   <section>
@@ -139,9 +152,9 @@
     <h2>제7조 (친구 해제 코드)</h2>
     <ol>
       <li>링크는 친구 1명에게 1개만 보낼 수 있습니다.</li>
-      <li>새 링크를 보내면 예전 링크는 더 이상 쓸 수 없습니다. 링크를 지우면 그 링크도 쓸 수 없습니다.</li>
+      <li>새 링크를 보내면 예전 링크는 더 이상 쓸 수 없습니다. 링크를 지우면 그 링크도 쓸 수 없습니다. 링크를 보낸 뒤 24시간 안에 친구가 열지 않으면 그 링크는 만료되어 쓸 수 없습니다.</li>
       <li>코드로 잠금을 푸는 것은 하루 1번만 할 수 있습니다. 숫자는 링크를 보낸 이용자 기기의 시간대 기준으로 매일 자정에 바뀝니다(시간대 기능 전에 보낸 링크는 한국 시간 기준). "오늘은 사용함"과 하루 1번 제한도 같은 기준입니다. 틀린 숫자를 5번 입력하면 10분 동안 입력할 수 없습니다.</li>
-      <li>링크에는 무작위로 만든 비밀 키, 이용자 기기를 구분하는 무작위 값, 이용자가 입력한 이름(선택)이 들어갑니다. 이 정보는 링크의 # 뒤에 들어가 웹페이지 서버로 전송되지 않고, 친구 기기의 브라우저에만 저장됩니다. 비밀 키 자체는 어떤 서버로도 보내지 않습니다.</li>
+      <li>링크에는 무작위로 만든 비밀 키, 이용자 기기를 구분하는 무작위 값, 이용자가 입력한 이름(선택), 이용자 앱의 언어와 기기 시간대, 링크 만료 시각이 들어갑니다. 이 정보는 링크의 # 뒤에 들어가 웹페이지 서버로 전송되지 않고, 친구 기기의 브라우저에만 저장됩니다. 비밀 키 자체는 어떤 서버로도 보내지 않습니다.</li>
       <li>친구 기기에는 이용자의 앱 사용 내역, 연락처, 위치 등 다른 정보가 전달되지 않습니다.</li>
       <li>숫자는 링크를 처음 연 기기의 브라우저에서만 보입니다. 이를 위해 링크를 처음 열 때 Google Firebase(Firestore, 서울 리전)에 링크 지문(비밀 키로 계산한 되돌릴 수 없는 값), 처음 연 브라우저의 익명 계정 식별값, 처음 연 시각을 기록합니다. 같은 링크를 다른 기기나 브라우저에서 열면 숫자가 보이지 않습니다.</li>
       <li>새 링크를 보내거나 링크를 지우면 예전 링크는 친구의 웹페이지에서도 숫자가 사라지고 "더 이상 쓸 수 없어요"가 보입니다. 친구의 웹페이지에는 가장 최근 링크의 숫자 1개만 보이고, 이용자가 그날 코드로 잠금을 풀었다면 숫자 대신 "오늘은 사용함"이 보입니다. 앱의 친구 목록에서는 친구가 링크를 열었는지와 연 시각을 볼 수 있습니다. 인터넷에 연결되지 않으면 이 표시가 늦게 반영될 수 있습니다.</li>
@@ -159,6 +172,8 @@
       <li><b>알람 및 리마인더</b>(선택): 예약 잠금을 정확한 시간에 시작합니다.</li>
       <li><b>연락처 읽기</b>(선택): '중요한 사람만' 모드에서 즐겨찾기 연락처가 있는지 확인하는 데만 씁니다.</li>
       <li><b>포그라운드 서비스, 기기 부팅 후 실행</b>: 잠금 중에만 실행되며, 재부팅 후 남은 잠금을 이어 갑니다.</li>
+      <li><b>저장소 쓰기</b>(선택, 안드로이드 9 이하만): 기록 카드를 갤러리에 저장할 때만 씁니다. 안드로이드 10 이상에서는 이 권한 없이 저장합니다.</li>
+      <li><b>네트워크 상태 확인</b>: 친구 해제 코드와 광고를 위해 인터넷 연결 여부를 확인합니다.</li>
     </ul>
   </section>
   <section>
@@ -205,14 +220,14 @@
   </section>
   <section>
     <h2>부칙</h2>
-    <p>이 약관은 2026년 10월 11일부터 시행합니다.</p>
+    <p>이 약관은 2026년 10월 25일부터 시행합니다.</p>
   </section>
   </div>
 
   
   <div id="privacy" class="part">
   <h1 class="doc">개인정보처리방침</h1>
-  <p class="sub">시행일 2026년 10월 11일</p>
+  <p class="sub">시행일 2026년 10월 25일</p>
   <section>
     <h2>1. 기본 원칙</h2>
     <p>디지털 디톡스(이하 "앱")는 회원가입이 없습니다. 디톡스 기록과 설정은 이용자의 기기 안에만 저장됩니다. 친구 해제 코드에 Google Firebase를 쓰고(아래 3, 4), 앱 개선을 위해 개인을 알 수 없는 사용 통계를 모읍니다(아래 6).</p>
@@ -222,24 +237,27 @@
     <ul>
       <li>잠금·단계·예약 일정·모드 설정, 허용 앱과 업무 앱 목록</li>
       <li>디톡스 기록(잠금 시작·끝 시각, 종류, "코드로 해제" 메모)</li>
-      <li>화면이 켜져 있던 시간(하루 합계와 시간대별 합계). 사용 정보 접근 권한으로 계산하며, 앱별 사용 내역은 저장하거나 밖으로 보내지 않습니다.</li>
-      <li>친구 해제 코드: 문자로 보낸 친구 전화번호(다른 앱으로 공유하면 저장하지 않음), 링크 보낸 날짜, 무작위 비밀 키, 내 이름(선택), 무작위 기기 구분값. 친구 이름은 저장하지 않으며, 연락처에서 고르면 고른 전화번호 하나만 읽습니다. 링크는 친구 1명에게 1개만 보낼 수 있고, 쓸 수 없게 된 예전 링크는 자동으로 지웁니다.</li>
+      <li>화면이 켜져 있던 시간(하루 합계, 시간대별 합계, 기록 화면의 하루 그래프에 쓰는 화면 켜짐·꺼짐 구간). 사용 정보 접근 권한으로 계산하며, 앱별 사용 내역은 저장하거나 밖으로 보내지 않습니다.</li>
+      <li>친구 해제 코드: 문자로 보낸 친구 전화번호(다른 앱으로 공유하면 저장하지 않음), 링크 보낸 날짜, 무작위 비밀 키, 내 이름(선택), 친구 이름(선택, 앱 화면에 "○○님이 열쇠를 갖고 있어요"처럼 보여 주기 위해 이용자가 입력한 경우), 무작위 기기 구분값, 링크 만료 시각. 친구 이름은 기기 안에만 저장하고 링크나 서버로 보내지 않으며, 연락처에서 고르면 고른 전화번호 하나만 읽습니다. 링크는 친구 1명에게 1개만 보낼 수 있고, 쓸 수 없게 된 예전 링크는 자동으로 지웁니다.</li>
       <li>'중요한 사람만' 모드에서 즐겨찾기 연락처 수 확인(연락처 내용은 읽어 저장하지 않습니다)</li>
+      <li>유리병 정원의 테마와 성장 단계, 완성한 정원병 목록, 연속 기록 축하창·안내 창을 보여 준 날짜 같은 화면 표시 정보</li>
+      <li>기록 카드 배경으로 고른 내 사진(아래 7)</li>
     </ul>
-    <p>이 정보는 앱을 삭제하면 함께 지워집니다.</p>
+    <p>이 정보는 앱을 삭제하거나 "내 데이터 삭제"를 쓰면 함께 지워집니다.</p>
   </section>
   <section>
     <h2>3. 친구에게 전달되는 정보</h2>
-    <p>친구 해제 코드 링크에는 무작위 비밀 키, 무작위 기기 구분값, 이용자가 입력한 이름(선택)이 들어갑니다. 이 값은 링크의 # 뒤에 있어 웹페이지 서버(GitHub Pages)로 전송되지 않고, 친구 기기의 브라우저에만 저장됩니다. 문자는 이용자가 직접 보내며, 앱이 대신 보내지 않습니다.</p>
+    <p>친구 해제 코드 링크에는 무작위 비밀 키, 무작위 기기 구분값, 이용자가 입력한 내 이름(선택), 이용자 앱의 언어와 기기 시간대(친구 웹페이지를 같은 언어로 열고 같은 자정에 숫자를 바꾸기 위해), 링크 만료 시각이 들어갑니다. 친구 이름과 전화번호는 링크에 들어가지 않습니다. 이 값은 링크의 # 뒤에 있어 웹페이지 서버(GitHub Pages)로 전송되지 않고, 친구 기기의 브라우저에만 저장됩니다. 문자는 이용자가 직접 보내며, 앱이 대신 보내지 않습니다.</p>
   </section>
   <section>
     <h2>4. 처음 연 기기 확인 (Google Firebase)</h2>
     <p>친구 해제 코드 링크마다 아래 정보를 Google Firebase(Cloud Firestore, 서울 리전 asia-northeast3)에 저장합니다. 처음 연 기기에서만 숫자가 보이게 하고, 예전 링크를 쓸 수 없게 하고, 오늘 이미 썼는지와 친구가 링크를 열었는지를 알려 주기 위해서입니다.</p>
     <ul>
       <li>링크 지문: 비밀 키로 계산한 SHA-256 값. 이 값으로 비밀 키나 해제 숫자를 알아낼 수 없습니다.</li>
-      <li>익명 계정 식별값: Firebase 익명 로그인이 이용자의 앱과 친구의 브라우저마다 만드는 무작위 값. 이름, 전화번호, 이메일과 연결되지 않습니다.</li>
+      <li>익명 계정 식별값: Firebase 인증(Authentication)의 익명 로그인이 이용자의 앱과 친구의 브라우저마다 만드는 무작위 값. 이름, 전화번호, 이메일과 연결되지 않습니다.</li>
       <li>링크를 보낸(등록한) 시각, 친구가 처음 연 시각</li>
       <li>더 이상 쓸 수 없는 링크인지(새 링크를 보냈거나 링크를 지운 경우)</li>
+      <li>링크 만료 시각(친구가 아직 열지 않은 링크만, 보낸 뒤 24시간)</li>
       <li>이용자가 코드로 잠금을 푼 날짜(예: 2026-10-11). 해제 숫자는 저장하지 않습니다.</li>
     </ul>
     <p>비밀 키, 해제 숫자, 이용자와 친구의 이름·전화번호는 저장하지 않습니다. 저장한 정보는 링크를 보낸 앱과 처음 연 브라우저만 읽을 수 있습니다. 링크를 보낸 이용자는 앱 메뉴의 "내 데이터 삭제"로 자신의 링크 정보를 지울 수 있습니다. 이 처리는 Google LLC(Firebase)에 맡깁니다.</p>
@@ -253,7 +271,7 @@
     <h2>6. 사용 통계 (Google Firebase 애널리틱스)</h2>
     <p>앱을 더 쓰기 좋게 고치기 위해 Google의 Firebase 애널리틱스로 사용 통계를 모읍니다. 이름, 전화번호, 이메일, 연락처, 사진, 앱별 사용 내역, 친구 해제 코드 숫자처럼 이용자를 알아볼 수 있는 정보는 보내지 않습니다.</p>
     <ul>
-      <li><b>수집 항목</b>: 앱 인스턴스 ID(앱 설치마다 만들어지는 무작위 값), 기기 모델·안드로이드 버전·앱 버전·언어, 대략적인 국가·지역(IP 주소로 추정하며 IP 주소 자체는 저장하지 않음), 앱 사용 이벤트(앱 실행, 권한 설정 완료, 잠금 시작·완료와 종류·단계·분, 예약 잠금 실행, 자유 이용권 사용, 친구 링크 보내기와 방법, 코드로 해제, 기록 카드 공유와 카드 종류, 보상형 광고 시청 완료, 언어 변경), 첫 실행·세션 같은 자동 수집 이벤트</li>
+      <li><b>수집 항목</b>: 앱 인스턴스 ID(앱 설치마다 만들어지는 무작위 값), 기기 모델·안드로이드 버전·앱 버전·언어, 대략적인 국가·지역(IP 주소로 추정하며 IP 주소 자체는 저장하지 않음), 앱 사용 이벤트(앱 실행, 권한 설정 완료, 잠금 시작·완료와 종류·단계·분, 예약 잠금 실행, 자유 이용권 사용, 친구 링크 보내기와 방법, 코드로 해제, 기록 카드 공유와 카드 종류, 보상형 광고 시청 완료, 언어 변경, 정원 단계 오름과 정원 완성), 첫 실행·세션 같은 자동 수집 이벤트</li>
       <li><b>목적</b>: 기능별 사용량, 재접속률, 처음 쓰는 흐름(권한 설정 → 첫 잠금)에서 어려운 단계를 파악해 앱을 개선하기 위해서입니다. 광고 맞춤화나 다른 회사 판매에는 쓰지 않습니다.</li>
       <li><b>보관 기간</b>: Google 애널리틱스의 이벤트 데이터 보관 기간(최대 14개월) 동안 보관하고, 그 뒤에는 자동으로 지워집니다. 통계 보고서에는 개인을 알 수 없는 합계만 남습니다.</li>
       <li><b>선택권</b>: 유럽경제지역·영국·스위스 이용자는 동의한 경우에만 수집하며(동의 전에는 수집하지 않음), 앱 메뉴의 "광고 개인정보 설정"에서 광고와 함께 바꿀 수 있습니다. "내 데이터 삭제"를 누르면 이 기기의 애널리틱스 식별값도 초기화됩니다.</li>
@@ -271,11 +289,45 @@
       <li>Firebase의 링크 정보: 이용자가 앱 메뉴의 "내 데이터 삭제"를 쓰거나 아래 문의처로 삭제를 요청할 때까지 보관합니다. 요청을 받으면 지체 없이(늦어도 30일 안에) 지웁니다.</li>
       <li>사용 통계: 최대 14개월 보관 후 자동 삭제 (위 6)</li>
       <li>광고 관련 정보: Google의 보관 정책을 따릅니다.</li>
-      <li>앱 메뉴의 <b>"내 데이터 삭제"</b>를 누르면 확인 후 기기 안의 기록·설정·링크·사진과 Firebase에 있는 내 링크 정보를 한 번에 지웁니다.</li>
+      <li>앱 메뉴의 <b>"내 데이터 삭제"</b>를 누르면 확인 후 기기 안의 기록·설정·링크·사진과 Firebase에 있는 내 링크 정보를 한 번에 지웁니다. 지운 정보는 복구할 수 없는 방법으로 영구 삭제합니다.</li>
     </ul>
   </section>
+  <section>
+    <h2>9. 개인정보의 국외 이전</h2>
+    <p>앱의 일부 기능은 Google이 제공하는 서비스를 쓰며, 이 과정에서 아래 정보가 국외로 이전되어 처리될 수 있습니다. 이전은 앱을 쓰는 동안 인터넷을 통해 수시로 이루어집니다.</p>
+    <ul>
+      <li><b>받는 자</b>: Google LLC (미국, 연락처 <a href="https://support.google.com/policies/contact/general_privacy_form">Google 개인정보 문의</a>)</li>
+      <li><b>이전 국가</b>: 미국 등 Google이 시설을 운영하는 국가</li>
+      <li><b>이전 항목과 목적</b>: Firebase 인증의 익명 계정 식별값(친구 해제 코드의 처음 연 기기 확인), Firebase 애널리틱스의 앱 인스턴스 ID·기기·앱 정보·사용 이벤트(사용 통계, 위 6), Google AdMob의 광고 ID 등 기기 식별값·대략적인 위치·광고 상호작용 정보(광고 표시와 성과 측정, 위 5)</li>
+      <li><b>보관 기간</b>: 위 8의 보관 기간과 같습니다(애널리틱스 최대 14개월, 광고 정보는 Google 보관 정책).</li>
+      <li><b>거부 방법</b>: 사용 통계는 "내 데이터 삭제"로 식별값을 초기화할 수 있고, 맞춤 광고는 기기 설정에서 끌 수 있습니다. 친구 해제 코드를 쓰지 않으면 Firebase 인증 정보는 이전되지 않습니다. 다만 광고와 기본 통계는 앱 제공에 필요해 완전히 거부하려면 앱 이용을 멈춰야 합니다.</li>
+      <li>친구 해제 코드의 링크 정보(위 4)는 대한민국 서울(asia-northeast3)에 저장됩니다.</li>
+    </ul>
+    <p>이 처리는 Google LLC에 맡기고 있으며(처리 위탁), Google은 자체 보안 기준과 계약에 따라 정보를 보호합니다.</p>
+  </section>
+  <section>
+    <h2>10. 안전성 확보 조치</h2>
+    <ul>
+      <li>앱과 서버 사이의 모든 통신은 암호화(HTTPS/TLS)해 주고받습니다.</li>
+      <li>Firebase 데이터베이스는 보안 규칙으로 접근을 제한해, 링크를 보낸 앱과 처음 연 브라우저만 해당 링크 정보를 읽고 쓸 수 있습니다.</li>
+      <li>비밀 키와 해제 숫자는 서버에 저장하지 않고, 서버에는 되돌릴 수 없는 지문(SHA-256)만 둡니다.</li>
+      <li>기기 안의 정보는 다른 앱이 읽을 수 없는 앱 전용 저장 공간에 둡니다.</li>
+      <li>서버(Firebase) 관리 권한은 개발자 본인만 갖고 있습니다.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>11. 이용자의 권리와 행사 방법</h2>
+    <p>모든 이용자는 자신의 개인정보에 대해 열람, 정정, 삭제, 처리 정지를 요청할 수 있고, 동의를 철회할 수 있습니다.</p>
+    <ul>
+      <li>삭제: 앱 메뉴의 "내 데이터 삭제"로 바로 할 수 있습니다.</li>
+      <li>광고·사용 통계 동의 변경(해당 지역): 앱 메뉴의 "광고 개인정보 설정"</li>
+      <li>그 밖의 요청: 아래 13의 이메일로 보내 주시면 지체 없이(늦어도 10일 안에) 처리 결과를 알려 드립니다.</li>
+      <li>개인정보 침해에 대한 상담은 개인정보침해신고센터(국번 없이 118, privacy.kisa.or.kr), 개인정보분쟁조정위원회(1833-6972, www.kopico.go.kr)에도 할 수 있습니다.</li>
+    </ul>
+    <p><b>아동</b>: 앱은 만 14세 미만 아동을 대상으로 하지 않으며, 만 14세 미만 아동의 개인정보를 알면서 수집하지 않습니다.</p>
+  </section>
   <section id="gdpr">
-    <h2>9. 유럽경제지역(EEA)·영국·스위스 이용자 안내 (GDPR)</h2>
+    <h2>12. 유럽경제지역(EEA)·영국·스위스 이용자 안내 (GDPR)</h2>
     <p><b>개인정보처리자</b>: 앱 개발자 (문의: befly020621@gmail.com)</p>
     <p><b>처리 근거</b></p>
     <ul>
@@ -299,12 +351,12 @@
     <p><b>아동</b>: 앱은 만 13세 미만 아동을 대상으로 하지 않습니다.</p>
   </section>
   <section>
-    <h2>10. 문의</h2>
-    <p>개인정보에 관한 문의: <a href="mailto:befly020621@gmail.com">befly020621@gmail.com</a></p>
+    <h2>13. 개인정보 보호책임자와 문의</h2>
+    <p>개인정보 보호책임자: 앱 개발자 (개인 개발자)<br>문의: <a href="mailto:befly020621@gmail.com">befly020621@gmail.com</a></p>
   </section>
   <section>
     <h2>부칙</h2>
-    <p>이 개인정보처리방침은 2026년 10월 11일부터 시행합니다.</p>
+    <p>이 개인정보처리방침은 2026년 10월 25일부터 시행합니다.</p>
   </section>
   </div>
 
@@ -315,7 +367,7 @@
   <p class="notice">This is a translation. If there is any difference between the Korean and English versions, the Korean version prevails.</p>
   <div id="terms-en" class="part">
   <h1 class="doc">Terms of Service</h1>
-  <p class="sub">Effective October 11, 2026</p>
+  <p class="sub">Effective October 25, 2026</p>
   <section>
     <h2>1. Purpose</h2>
     <p>These Terms set out the rights, obligations and responsibilities of the developer and users of PhoneComma (the "App"). The App is a digital detox app that helps you spend less time on your smartphone for periods you choose yourself.</p>
@@ -351,7 +403,7 @@
       <li>Allowed apps and work apps during a lock</li>
       <li>Do Not Disturb during a lock</li>
       <li>Friend unlock code</li>
-      <li>Detox history, comparison with screen-on time, charts, a growing tree, and shareable cards</li>
+      <li>Detox history, comparison with screen-on time, charts, growing a glass-jar garden (6 themes), streak celebrations, and shareable cards</li>
     </ul>
   </section>
   <section>
@@ -385,9 +437,9 @@
     <h2>7. Friend unlock code</h2>
     <ol>
       <li>You can have one link, sent to one friend.</li>
-      <li>When you send a new link, the old one stops working. Deleting the link also disables it.</li>
+      <li>When you send a new link, the old one stops working. Deleting the link also disables it. If your friend doesn't open the link within 24 hours of sending, it expires and can't be used.</li>
       <li>You can unlock with a code once a day. The number changes every day at midnight in the time zone of the device that sent the link (links sent before this feature use Korea time). "Used today" and the once-a-day limit follow the same time. After 5 wrong attempts, input is blocked for 10 minutes.</li>
-      <li>The link contains a random secret key, a random value identifying your device and your name (optional). These are placed after the # in the link, so they are not sent to the web page's server and are stored only in your friend's browser. The secret key itself is never sent to any server.</li>
+      <li>The link contains a random secret key, a random value identifying your device, your name (optional), your App's language and device time zone, and the link's expiry time. These are placed after the # in the link, so they are not sent to the web page's server and are stored only in your friend's browser. The secret key itself is never sent to any server.</li>
       <li>No other information, such as your app usage, contacts or location, is shared with your friend.</li>
       <li>The number appears only in the browser that first opened the link. To make this work, when the link is first opened we record in Google Firebase (Cloud Firestore, Seoul region) the link's fingerprint (an irreversible value derived from the secret key), an anonymous ID for that browser and the time it was opened. If the same link is opened on another device or browser, the number is not shown.</li>
       <li>When you send a new link or delete the link, the old link's number disappears from your friend's page and it shows "no longer valid". Your friend's page shows only the number for the most recent link, and shows "used today" instead of the number if you already unlocked with a code that day. In the App you can see whether and when your friend opened the link. Without an internet connection these updates may be delayed.</li>
@@ -405,6 +457,8 @@
       <li><b>Alarms &amp; reminders</b> (optional): to start scheduled locks on time.</li>
       <li><b>Contacts</b> (optional): only to check whether you have starred contacts for Favorites only mode.</li>
       <li><b>Foreground service, run at startup</b>: runs only during a lock and resumes a remaining lock after a reboot.</li>
+      <li><b>Write to storage</b> (optional, Android 9 and below only): only to save share cards to your gallery. Android 10 and later save without this permission.</li>
+      <li><b>Network state</b>: to check whether you're online for the friend unlock code and ads.</li>
     </ul>
   </section>
   <section>
@@ -451,13 +505,13 @@
   </section>
   <section>
     <h2>Addendum</h2>
-    <p>These Terms take effect on October 11, 2026.</p>
+    <p>These Terms take effect on October 25, 2026.</p>
   </section>
 </div>
 
   <div id="privacy-en" class="part">
   <h1 class="doc">Privacy Policy</h1>
-  <p class="sub">Effective October 11, 2026</p>
+  <p class="sub">Effective October 25, 2026</p>
   <section>
     <h2>1. Basic principles</h2>
     <p>PhoneComma (the "App") has no sign-up. Your detox history and settings are stored only on your device. We use Google Firebase for the friend unlock code (sections 3 and 4) and to collect usage statistics that don't identify you (section 6).</p>
@@ -467,25 +521,27 @@
     <ul>
       <li>Lock, stage, schedule and mode settings, and your lists of allowed apps and work apps</li>
       <li>Detox history (start and end times, type, and an "Unlocked with code" note)</li>
-      <li>Screen-on time (daily and hourly totals), calculated with Usage access. Per-app usage is never stored or sent anywhere.</li>
-      <li>Friend unlock code: your friend's phone number if you sent the link by text (not stored if you shared it through another app), the date you sent it, a random secret key, your name (optional) and a random device value. Your friend's name is not stored, and when you pick from contacts, only the one number you choose is read. You can have only one link, and old links that no longer work are deleted automatically.</li>
+      <li>Screen-on time (daily and hourly totals, and the screen on/off periods used for the day chart in History), calculated with Usage access. Per-app usage is never stored or sent anywhere.</li>
+      <li>Friend unlock code: your friend's phone number if you sent the link by text (not stored if you shared it through another app), the date you sent it, a random secret key, your name (optional), your friend's name (optional, if you enter it so the App can show things like "Hani has your key"), a random device value and the link's expiry time. Your friend's name stays on your device and is never put in the link or sent to a server; when you pick from contacts, only the one number you choose is read. You can have only one link, and old links that no longer work are deleted automatically.</li>
       <li>For Favorites only mode, a check of whether you have starred contacts (contact details are not read or stored)</li>
+      <li>Display information such as your glass-jar garden theme and growth stage, the gardens you have completed, and the dates celebration or notice windows were shown</li>
       <li>The photo you choose as a card background (see section 7)</li>
     </ul>
     <p>This information is removed when you uninstall the App or use "Delete my data".</p>
   </section>
   <section>
     <h2>3. Information shared with your friend</h2>
-    <p>The friend unlock link contains a random secret key, a random device value and your name (optional). These are placed after the # in the link, so they are not sent to the web page's server (GitHub Pages) and are stored only in your friend's browser. You send the message yourself; the App never sends it on your behalf.</p>
+    <p>The friend unlock link contains a random secret key, a random device value, your name (optional), your App's language and device time zone (so your friend's page opens in the same language and changes the number at the same midnight), and the link's expiry time. Your friend's name and phone number are never put in the link. These are placed after the # in the link, so they are not sent to the web page's server (GitHub Pages) and are stored only in your friend's browser. You send the message yourself; the App never sends it on your behalf.</p>
   </section>
   <section>
     <h2>4. First-device check (Google Firebase)</h2>
     <p>For each friend unlock link we store the following in Google Firebase (Cloud Firestore, Seoul region asia-northeast3). This lets the number appear only on the device that first opened the link, disables old links, and shows whether the code was used today and whether your friend opened the link.</p>
     <ul>
       <li>Link fingerprint: a SHA-256 value derived from the secret key. It can't be used to recover the key or the unlock number.</li>
-      <li>Anonymous account IDs: random values created by Firebase anonymous sign-in for your App and for your friend's browser. They are not linked to any name, phone number or email.</li>
+      <li>Anonymous account IDs: random values created by Firebase Authentication anonymous sign-in for your App and for your friend's browser. They are not linked to any name, phone number or email.</li>
       <li>When the link was sent (registered) and when your friend first opened it</li>
       <li>Whether the link is no longer valid (because you sent a new one or deleted it)</li>
+      <li>The link's expiry time (only for links your friend hasn't opened yet; 24 hours after sending)</li>
       <li>The date you unlocked with a code (e.g. 2026-10-11). The unlock number itself is never stored.</li>
     </ul>
     <p>We never store the secret key, the unlock number, or your or your friend's name or phone number. Only the App that sent the link and the browser that first opened it can read this information. You can delete your link information at any time with "Delete my data" in the App menu. This processing is carried out by Google LLC (Firebase) on our behalf.</p>
@@ -499,7 +555,7 @@
     <h2>6. Usage statistics (Google Firebase Analytics)</h2>
     <p>To improve the App, we collect usage statistics with Google's Firebase Analytics. We never send information that identifies you, such as your name, phone number, email, contacts, photos, per-app usage or unlock code numbers.</p>
     <ul>
-      <li><b>What we collect</b>: an app instance ID (a random value created for each installation), device model, Android version, app version and language, approximate country and region (estimated from your IP address; the IP address itself is not stored), app usage events (app opens, permissions set up, lock start and completion with type, stage and minutes, scheduled lock runs, free pass use, friend link sent and how, unlock with code, share card shared and its type, rewarded ad completed, language changed), and automatically collected events such as first open and sessions.</li>
+      <li><b>What we collect</b>: an app instance ID (a random value created for each installation), device model, Android version, app version and language, approximate country and region (estimated from your IP address; the IP address itself is not stored), app usage events (app opens, permissions set up, lock start and completion with type, stage and minutes, scheduled lock runs, free pass use, friend link sent and how, unlock with code, share card shared and its type, rewarded ad completed, language changed, garden stage reached and garden completed), and automatically collected events such as first open and sessions.</li>
       <li><b>Why</b>: to understand how much each feature is used, how often people come back, and where people get stuck in the first steps (permissions → first lock), so we can improve the App. It is not used to personalize ads or sold to anyone.</li>
       <li><b>Retention</b>: kept for Google Analytics' event data retention period (up to 14 months) and then deleted automatically. Reports keep only aggregated totals that can't identify you.</li>
       <li><b>Your choice</b>: in the EEA, UK and Switzerland we collect only with your consent (nothing is collected before you consent), and you can change it together with ad consent under "Ad privacy settings" in the menu. "Delete my data" also resets the analytics ID on this device.</li>
@@ -517,11 +573,44 @@
       <li>Link information in Firebase: kept until you use "Delete my data" in the App or ask us to delete it. We delete it without undue delay, and within 30 days at the latest.</li>
       <li>Usage statistics: kept for up to 14 months, then deleted automatically (section 6).</li>
       <li>Ad-related information: retained according to Google's policies.</li>
-      <li>Tapping <b>"Delete my data"</b> in the App menu deletes, after confirmation, your history, settings, link and photo on your device together with your link information in Firebase.</li>
+      <li>Tapping <b>"Delete my data"</b> in the App menu deletes, after confirmation, your history, settings, link and photo on your device together with your link information in Firebase. Deleted information is erased permanently and can't be recovered.</li>
     </ul>
   </section>
+  <section>
+    <h2>9. International transfers</h2>
+    <p>Some features use services provided by Google, so the following information may be transferred to and processed outside your country. Transfers happen over the internet whenever you use the App.</p>
+    <ul>
+      <li><b>Recipient</b>: Google LLC (USA, contact: <a href="https://support.google.com/policies/contact/general_privacy_form">Google privacy contact</a>)</li>
+      <li><b>Countries</b>: the United States and other countries where Google operates facilities</li>
+      <li><b>What and why</b>: anonymous account IDs from Firebase Authentication (first-device check for the friend unlock code), app instance ID, device and app information and usage events from Firebase Analytics (usage statistics, section 6), and device identifiers such as the advertising ID, approximate location and ad interactions from Google AdMob (showing and measuring ads, section 5)</li>
+      <li><b>Retention</b>: as in section 8 (analytics up to 14 months; ad data per Google's policies).</li>
+      <li><b>How to refuse</b>: "Delete my data" resets the analytics ID, and you can turn off personalized ads in your device settings. If you don't use the friend unlock code, no Firebase Authentication data is transferred. Ads and basic statistics are needed to provide the App, so refusing them entirely means stopping use of the App.</li>
+      <li>Friend unlock link information (section 4) is stored in Seoul, Republic of Korea (asia-northeast3).</li>
+    </ul>
+    <p>This processing is entrusted to Google LLC, which protects the information under its own security standards and agreements.</p>
+  </section>
+  <section>
+    <h2>10. Security measures</h2>
+    <ul>
+      <li>All communication between the App and servers is encrypted (HTTPS/TLS).</li>
+      <li>Firebase security rules restrict access so that only the App that sent a link and the browser that first opened it can read or write that link's information.</li>
+      <li>The secret key and unlock number are never stored on a server; only an irreversible fingerprint (SHA-256) is kept.</li>
+      <li>Information on your device is kept in the App's private storage, which other apps can't read.</li>
+      <li>Only the developer has admin access to the server (Firebase).</li>
+    </ul>
+  </section>
+  <section>
+    <h2>11. Your rights and how to use them</h2>
+    <p>Every user can ask to access, correct, delete or stop the processing of their personal information, and can withdraw consent.</p>
+    <ul>
+      <li>Deletion: right away with "Delete my data" in the App menu.</li>
+      <li>Changing ad and usage-statistics consent (where it applies): "Ad privacy settings" in the App menu.</li>
+      <li>Other requests: email the address in section 13 and we'll reply without undue delay (within 10 days in Korea).</li>
+    </ul>
+    <p><b>Children</b>: the App is not directed at children under 14, and we don't knowingly collect their personal information.</p>
+  </section>
   <section id="gdpr-en">
-    <h2>9. Users in the EEA, UK and Switzerland (GDPR)</h2>
+    <h2>12. Users in the EEA, UK and Switzerland (GDPR)</h2>
     <p><b>Controller</b>: the App's developer (contact: befly020621@gmail.com)</p>
     <p><b>Legal bases</b></p>
     <ul>
@@ -545,12 +634,12 @@
     <p><b>Children</b>: the App is not directed at children under 13.</p>
   </section>
   <section>
-    <h2>10. Contact</h2>
-    <p>Privacy questions: <a href="mailto:befly020621@gmail.com">befly020621@gmail.com</a></p>
+    <h2>13. Privacy officer and contact</h2>
+    <p>Privacy officer: the App's developer (individual developer)<br>Contact: <a href="mailto:befly020621@gmail.com">befly020621@gmail.com</a></p>
   </section>
   <section>
     <h2>Addendum</h2>
-    <p>This Privacy Policy takes effect on October 11, 2026.</p>
+    <p>This Privacy Policy takes effect on October 25, 2026.</p>
   </section>
 </div>
 
