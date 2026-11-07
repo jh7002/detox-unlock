@@ -312,21 +312,17 @@ async function verify() {
   if (keys.some((x) => x.c === 0)) $('checking').classList.remove('hidden');
   let needsNet = false, needsSetup = false, checkFailed = false;
   const drop = new Set();
+  const deadLinks = [];
   for (const key of keys) {
     const r = await claim(key.k, key.c === 1 ? 0 : (key.e || 0));
     if (r.state === 'mine') {
       if (key.c === 0) $('firstBanner').classList.remove('hidden');
       key.c = 1;
       key.u = r.usedDate || '';
-    } else if (r.state === 'expired') {
+    } else if (r.state === 'expired' || r.state === 'revoked' || r.state === 'other') {
+      // 못 쓰게 된 링크: 아래에서 쓸 수 있는 숫자가 하나도 남지 않을 때만 안내한다
       drop.add(key);
-      showError('expired', key.n || '');
-    } else if (r.state === 'revoked') {
-      drop.add(key);
-      showError('revoked', key.n || '');
-    } else if (r.state === 'other') {
-      drop.add(key);
-      showError('other', key.n || '');
+      deadLinks.push([r.state, key.n || '']);
     } else if (r.state === 'failed') {
       // 친구 등록 쓰기가 거절됨: 숫자를 보여 주지 않고(확인 전 상태로 두고) 안내 — 다음에 열면 다시 시도
       if (key.c !== 1) key.c = 0;
@@ -344,6 +340,16 @@ async function verify() {
   const best = current();
   if (best) keys = keys.filter((x) => x === best || (x.c === 0 && (x.added || 0) > (best.added || 0)));
   saveKeys(keys);
+  // 쓸 수 있는 숫자가 보이고 있으면 예전 링크 안내는 띄우지 않는다
+  // ("쓸 수 없어요"와 숫자가 같이 보이면 이 숫자도 못 쓰는 것처럼 보여서)
+  if (current()) {
+    for (const k of ['expired', 'revoked', 'other']) {
+      for (const id of Array.from(messages.keys())) if (id.startsWith(k + '[')) messages.delete(id);
+    }
+    renderErrors();
+  } else {
+    for (const [state, name] of deadLinks) showError(state, name);
+  }
   $('checking').classList.add('hidden');
   if (needsNet) showError('needNet');
   if (needsSetup) showError('needSetup');
