@@ -50,7 +50,15 @@
   .notes ul { margin: 0; padding-left: 18px; color: var(--sub); font-size: 14px; }
   .notes li { margin-bottom: 4px; }
   .notes li::marker { color: var(--mint); }
-  .try { display: inline-block; margin-top: 18px; color: var(--sub); font-size: 13px; }
+  /* 나도 해보기: 안내 아래 옅은 카드 (앱 아이콘 + 한 줄 설명) */
+  .try { display: flex; align-items: center; gap: 12px; margin-top: 22px; padding: 14px 16px; border-radius: 16px;
+    background: rgba(159,225,203,.08); border: 1px solid rgba(159,225,203,.18); color: inherit; text-decoration: none; }
+  .try.hidden { display: none; }
+  .try img { width: 40px; height: 40px; border-radius: 10px; flex: none; }
+  .try .t { flex: 1; line-height: 1.4; min-width: 0; }
+  .try .t b { display: block; font-size: 14px; }
+  .try .t span { display: block; font-size: 12px; color: var(--sub); word-break: keep-all; }
+  .try .arrow { color: var(--sub); font-size: 18px; }
   .install { margin-top: auto; padding-top: 18px; }
   .install .row { border-top: 1px solid var(--line); padding-top: 16px; display: flex; align-items: center; gap: 12px; }
   .install .txt { flex: 1; }
@@ -91,7 +99,11 @@
       <li data-i18n="tip2">꼭 필요할 때만 숫자를 알려 주세요</li>
       <li data-i18n="tip3">하루 1번만 쓸 수 있어요</li>
     </ul>
-    <a id="tryLink" class="try hidden" href="#" rel="noopener" data-i18n="try">🌿 나도 해보기</a>
+    <a id="tryLink" class="try hidden" href="#" rel="noopener">
+      <img src="icon.svg" alt="">
+      <span class="t"><b data-i18n="tryTitle">나도 폰 시간 줄여 보기</b><span data-i18n="trySub">폰쉼표 · 쉰 만큼 자라는 유리병 정원</span></span>
+      <span class="arrow" aria-hidden="true">›</span>
+    </a>
   </div>
 
   <!-- 맨 아래: 다음에 바로 열려면 + 홈 화면에 추가 (홈 화면 앱으로 열었으면 숨김) -->
@@ -131,7 +143,8 @@ const T = {
     checking: '이 기기에서 처음 연 링크인지 확인하고 있어요…',
     install: '홈 화면에 추가',
     howto: '브라우저 메뉴에서 홈 화면에 추가할 수 있어요.<ul><li><b>크롬</b>: 오른쪽 위 ⋮ → <b>홈 화면에 추가</b></li><li><b>삼성 인터넷</b>: 아래 ≡ → <b>현재 페이지 추가</b> → <b>홈 화면</b></li><li><b>아이폰 사파리</b>: 공유 버튼 → <b>홈 화면에 추가</b></li></ul>',
-    try: '🌿 나도 해보기',
+    tryTitle: '나도 폰 시간 줄여 보기',
+    trySub: '폰쉼표 · 쉰 만큼 자라는 유리병 정원',
     todayLabel: '오늘의 숫자',
     usedToday: '오늘은 사용함',
     newTomorrow: '내일 새 숫자',
@@ -163,7 +176,8 @@ const T = {
     checking: 'Checking whether this is the first device to open the link…',
     install: 'Add to home screen',
     howto: 'You can add it from your browser menu.<ul><li><b>Chrome</b>: ⋮ (top right) → <b>Add to home screen</b></li><li><b>Samsung Internet</b>: ≡ (bottom) → <b>Add page to</b> → <b>Home screen</b></li><li><b>iPhone Safari</b>: Share → <b>Add to Home Screen</b></li></ul>',
-    try: '🌿 Try PhoneComma',
+    tryTitle: 'Cut down your phone time too',
+    trySub: 'PhoneComma · a glass-jar garden that grows as you rest',
     todayLabel: "Today's number",
     usedToday: 'Used today',
     newTomorrow: 'New code tomorrow',
