@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2E7D6B">
+<title>데이터 삭제 요청 · 폰쉼표 - 공부 앱 잠금, 디지털 디톡스 테라리움 · Jhchoi</title>
+<meta name="description" content="How to delete your data in the Google Play app 폰쉼표 - 공부 앱 잠금, 디지털 디톡스 테라리움 (com.jh7002.digitaldetox) by Jhchoi">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+  :root { --bg: #F4FAF7; --card: #FFFFFF; --text: #1B3B33; --sub: #5B746C; --green: #2E7D6B; --line: #DCE9E3; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0F1F1B; --card: #17302A; --text: #ECF5F1; --sub: #A9C2BA; --green: #7FCBB5; --line: #29453D; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    line-height: 1.7; -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 22px; margin: 4px 0 4px; }
+  h2 { font-size: 17px; margin: 0 0 8px; color: var(--green); }
+  .sub { color: var(--sub); font-size: 14px; margin: 0 0 18px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 12px; }
+  p, ul, ol { margin: 0 0 8px; font-size: 15px; }
+  p:last-child, ul:last-child, ol:last-child { margin-bottom: 0; }
+  ul, ol { padding-left: 22px; }
+  li { margin-bottom: 4px; }
+  a { color: var(--green); }
+  html { scroll-behavior: smooth; }
+  .tabs { position: sticky; top: 0; z-index: 1; display: flex; gap: 8px; padding: 10px 0; margin-bottom: 8px; background: var(--bg); }
+  .tabs a { flex: 1; text-align: center; text-decoration: none; font-weight: 700; font-size: 15px;
+    padding: 10px 8px; border-radius: 12px; border: 1.5px solid var(--green); color: var(--green); }
+  .part { scroll-margin-top: 64px; padding-top: 8px; }
+  .part + .part { margin-top: 28px; }
+  h1.doc { font-size: 22px; margin: 4px 0 4px; }
+  .top { text-align: center; font-size: 14px; margin: 18px 0 0; }
+
+  .langs { display: flex; gap: 6px; justify-content: flex-end; margin-bottom: 6px; }
+  .langs button { font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 999px; border: 1.5px solid var(--line);
+    background: var(--card); color: var(--text); cursor: pointer; }
+  .langs button[aria-pressed="true"] { border-color: var(--green); color: var(--green); font-weight: 700; }
+  .notice { font-size: 14px; color: var(--sub); background: var(--card); border: 1px dashed var(--line);
+    border-radius: 12px; padding: 10px 14px; margin: 0 0 12px; }
+  [hidden] { display: none !important; }
+  /* 앱 안 바텀시트 (?embed=1, ?theme=) */
+  html.embed .langs, html.embed .head { display: none !important; }
+  html.embed main { padding-top: 4px; }
+  :root.theme-light { --bg: #F4FAF7; --card: #FFFFFF; --text: #1B3B33; --sub: #5B746C; --green: #2E7D6B; --line: #DCE9E3; color-scheme: light; }
+  :root.theme-dark { --bg: #0F1F1B; --card: #17302A; --text: #ECF5F1; --sub: #A9C2BA; --green: #7FCBB5; --line: #29453D; color-scheme: dark; }
+</style>
+</head>
+<body>
+<main>
+  <!-- Play Console 데이터 보안 양식의 "데이터 삭제 URL"용 단독 페이지 -->
+  <div class="head">
+    <h1>🌿 폰쉼표 데이터 삭제 요청</h1>
+    <p class="sub">폰쉼표 - 공부 앱 잠금, 디지털 디톡스 테라리움 (com.jh7002.digitaldetox) · 개발자 Jhchoi<br>English version below · <a href="#en">Data deletion (English)</a></p>
+  </div>
+
+  <section>
+    <h2>적용 대상과 개발자</h2>
+    <p>이 페이지는 Google Play에 등록된 「폰쉼표 - 공부 앱 잠금, 디지털 디톡스 테라리움」 앱(패키지명 com.jh7002.digitaldetox, 이하 "앱")의 데이터 삭제 방법을 안내합니다.</p>
+    <p>개발자: <b>Jhchoi</b> (개인 개발자) · 문의: <a href="mailto:befly020621@gmail.com">befly020621@gmail.com</a></p>
+    <p>앱은 회원가입이나 로그인이 없어서 따로 지울 계정이 없습니다. 아래 방법으로 앱과 서버에 있는 내 데이터를 지울 수 있습니다.</p>
+  </section>
+
+  <section>
+    <h2>1. 앱에서 바로 지우기</h2>
+    <ol>
+      <li>폰쉼표 앱을 엽니다. (잠금 중이면 잠금이 끝난 뒤에 할 수 있습니다.)</li>
+      <li>왼쪽 위 <b>메뉴(☰)</b> → <b>더 보기</b>를 누릅니다.</li>
+      <li><b>내 데이터 삭제</b>를 누르고 확인합니다.</li>
+    </ol>
+    <p>기기 안의 디톡스 기록·설정·할 일·친구 링크·사진과, 서버(Google Firebase)에 있는 내 친구 링크 정보가 한 번에 영구 삭제되며 복구할 수 없습니다. 사용 통계용 식별값도 초기화됩니다.</p>
+  </section>
+
+  <section>
+    <h2>2. 앱을 이미 지웠거나 앱을 열 수 없을 때</h2>
+    <p><a href="mailto:befly020621@gmail.com?subject=%ED%8F%B0%EC%89%BC%ED%91%9C%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%82%AD%EC%A0%9C%20%EC%9A%94%EC%B2%AD">befly020621@gmail.com</a>으로 제목을 "폰쉼표 데이터 삭제 요청"으로 해서 메일을 보내 주세요. 친구 링크를 보낸 날짜(대략)와, 가능하면 친구에게 보낸 링크 주소를 함께 적어 주시면 해당 서버 정보를 찾아 지웁니다. 요청을 받으면 지체 없이(늦어도 30일 안에) 삭제하고 메일로 알려 드립니다.</p>
+    <p>기기 안의 정보는 앱을 삭제하면 함께 지워집니다.</p>
+  </section>
+
+  <section>
+    <h2>3. 지워지는 데이터와 보관 기간</h2>
+    <ul>
+      <li><b>기기 안의 정보</b> (기록, 설정, 할 일, 사진 등): 앱의 "내 데이터 삭제" 또는 앱 삭제 시 즉시 삭제됩니다.</li>
+      <li><b>친구 해제 코드 링크 정보</b> (Firebase: 링크 지문, 익명 식별값, 등록·처음 연 시각, 코드 사용 날짜): "내 데이터 삭제" 시 즉시, 메일 요청 시 30일 안에 삭제됩니다.</li>
+      <li><b>사용 통계</b> (Firebase 애널리틱스): 개인을 알 수 없는 정보로, 최대 14개월 보관 후 자동 삭제됩니다. "내 데이터 삭제" 시 식별값이 초기화됩니다.</li>
+      <li><b>광고 정보</b> (Google AdMob): Google의 보관 정책을 따르며, 기기 설정에서 광고 ID를 재설정하거나 삭제할 수 있습니다.</li>
+    </ul>
+    <p>자세한 내용은 <a href="privacy.html">개인정보처리방침</a>을 참고해 주세요.</p>
+  </section>
+
+  <hr style="border:none;border-top:1px solid var(--line);margin:28px 0">
+
+  <div id="en" class="part">
+  <h1 class="doc">PhoneComma (폰쉼표) data deletion</h1>
+  <p class="sub">"폰쉼표 - 공부 앱 잠금, 디지털 디톡스 테라리움" (com.jh7002.digitaldetox) · Developer: Jhchoi</p>
+  <section>
+    <h2>Who this applies to</h2>
+    <p>This page explains how to delete your data from the Google Play app "폰쉼표 - 공부 앱 잠금, 디지털 디톡스 테라리움" (PhoneComma; package name com.jh7002.digitaldetox; the "App").</p>
+    <p>Developer: <b>Jhchoi</b> (individual developer) · Contact: <a href="mailto:befly020621@gmail.com">befly020621@gmail.com</a></p>
+    <p>The App has no sign-up or login, so there is no account to delete. You can delete your data on the device and on the server as follows.</p>
+  </section>
+  <section>
+    <h2>1. Delete in the App</h2>
+    <ol>
+      <li>Open the App (during a lock, wait until the lock ends).</li>
+      <li>Tap <b>Menu (☰)</b> → <b>More</b>.</li>
+      <li>Tap <b>Delete my data</b> and confirm.</li>
+    </ol>
+    <p>Your detox history, settings, to-dos, friend link and photo on the device, and your friend link information on the server (Google Firebase), are permanently deleted at once and can't be recovered. The usage statistics identifier is also reset.</p>
+  </section>
+  <section>
+    <h2>2. If you already uninstalled the App or can't open it</h2>
+    <p>Email <a href="mailto:befly020621@gmail.com?subject=PhoneComma%20data%20deletion%20request">befly020621@gmail.com</a> with the subject "PhoneComma data deletion request". Include the approximate date you sent a friend link and, if possible, the link itself, so we can find and delete the related server data. We delete it without delay (within 30 days at the latest) and reply by email.</p>
+    <p>Data on your device is removed when you uninstall the App.</p>
+  </section>
+  <section>
+    <h2>3. What is deleted and how long data is kept</h2>
+    <ul>
+      <li><b>Data on your device</b> (history, settings, to-dos, photo): deleted immediately with "Delete my data" or when you uninstall the App.</li>
+      <li><b>Friend unlock code link information</b> (Firebase: link fingerprint, anonymous identifier, registration and first-open times, code-use date): deleted immediately with "Delete my data", or within 30 days of an email request.</li>
+      <li><b>Usage statistics</b> (Firebase Analytics): not personally identifying; kept for up to 14 months, then deleted automatically. "Delete my data" resets the identifier.</li>
+      <li><b>Advertising information</b> (Google AdMob): follows Google's retention policies; you can reset or delete your advertising ID in your device settings.</li>
+    </ul>
+    <p>See the <a href="privacy.html#privacy-en">Privacy Policy</a> for details.</p>
+  </section>
+  </div>
+</main>
+</body>
+</html>
