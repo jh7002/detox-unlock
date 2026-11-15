@@ -3,7 +3,7 @@ window.DETOX_CONFIG = {
   // "나도 해보기" Play 스토어 주소. 비워 두면 버튼이 숨겨진다.
   // 예) "https://play.google.com/store/apps/details?id=com.jh7002.digitaldetox"
   // utm_source=friend_code 는 자동으로 붙는다.
-  playStoreUrl: "",
+  playStoreUrl: "https://play.google.com/store/apps/details?id=com.jh7002.digitaldetox",
 
   // "처음 연 기기만" 확인용 Firebase (프로젝트 phonshimpyo, Firestore 서울).
   // 웹 앱 설정값은 공개되어도 되는 값이고, 실제 보호는 Firestore 보안 규칙이 한다.
